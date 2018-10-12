@@ -1,0 +1,5 @@
+include ':app'
+include ':MobCommons'
+project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/trunk')
+include ':MobTools'
+project(':MobTools').projectDir = new File('../../svn/ShareSDKTools/trunk')
