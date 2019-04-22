@@ -16,6 +16,12 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		checkPermissions();
+//		startService(new Intent(this, MyService.class));
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 
 	/* 检查使用权限 */

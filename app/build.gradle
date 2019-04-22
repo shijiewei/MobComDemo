@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.mob.sdk'
 
 android {
     compileSdkVersion 25
@@ -18,6 +19,16 @@ android {
         }
     }
 }
+
+//MobSDK {
+////    公共库测试appkey，带有默认开启的唤星
+//    appKey "fe0614078730"
+//    appSecret "51215bd55b319a54023c1ecd23647323"
+//
+//    MobPush {
+//
+//    }
+//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
