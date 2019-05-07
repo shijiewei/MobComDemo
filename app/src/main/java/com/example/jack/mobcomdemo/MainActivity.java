@@ -5,6 +5,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		checkPermissions();
+		initView();
 //		startService(new Intent(this, MyService.class));
 	}
 
@@ -46,5 +49,16 @@ public class MainActivity extends Activity {
 				t.printStackTrace();
 			}
 		}
+	}
+
+	private void initView() {
+		Button btn = (Button) findViewById(R.id.btn1);
+		btn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				TestPage testPage = new TestPage();
+				testPage.show(MainActivity.this, null);
+			}
+		});
 	}
 }

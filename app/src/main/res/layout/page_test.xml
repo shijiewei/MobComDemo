@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:padding="5dp"
+	android:gravity="center_horizontal"
+	android:background="@color/mob_verify_common_bg"
+	android:orientation="vertical">
+	<ImageView
+		android:layout_width="70dp"
+		android:layout_height="70dp"
+		android:layout_marginTop="90dp"
+		android:scaleType="centerCrop"
+		android:src="@drawable/mob_verify_page_success_complete"/>
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:textSize="@dimen/mob_verify_text_size_m"
+		android:textColor="@color/mob_verify_text_color_common_black"
+		android:text="完成"/>
+</LinearLayout>

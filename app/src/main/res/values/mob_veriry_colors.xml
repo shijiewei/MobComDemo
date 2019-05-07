@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="colorPrimary">#3F51B5</color>
+	<color name="colorPrimaryDark">#303F9F</color>
+	<color name="colorAccent">#FF4081</color>
+
+	<color name="mob_verify_common_bg">#FFFFFF</color>
+	<color name="mob_verify_main_color">#4E96FF</color>
+	<color name="mob_verify_text_color_common_black">#330F33</color>
+	<color name="mob_verify_text_color_common_white">#EEEEEE</color>
+	<color name="mob_verify_text_color_common_gray">#999999</color>
+	<color name="mob_verify_text_color_common_gray_light">#CCCCCC</color>
+	<color name="mob_verify_gui_text_color_common_gray_lighter">#F2F2F2</color>
+	<color name="mob_verify_text_color_common_orange">#FF6600</color>
+</resources>

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 		  package="com.example.jack.mobcomdemo">
-
 	<!-- SsClt -->
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-	<!-- 其他统计项 -->
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 其他统计项 -->
 	<uses-permission android:name="android.permission.GET_TASKS"/>
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -35,8 +32,9 @@
 		<activity
 			android:name="com.mob.tools.MobUIShell"
 			android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+			android:screenOrientation="portrait"
 			android:theme="@style/MobShellTheme"
-			android:windowSoftInputMode="stateHidden|adjustResize"/>
+			android:windowSoftInputMode="stateHidden|adjustResize" />
 
 		<meta-data
 			android:name="Mob-AppKey"
@@ -47,9 +45,9 @@
 
 		<service
 			android:name=".MyService"
-			android:process=":p2"
 			android:enabled="true"
-			android:exported="true">
+			android:exported="true"
+			android:process=":p2">
 		</service>
 	</application>
 

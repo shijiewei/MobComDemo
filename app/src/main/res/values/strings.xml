@@ -1,3 +1,5 @@
 <resources>
 	<string name="app_name">MobComDemo</string>
+	<string name="page_test_title_bar_back"><![CDATA[<]]></string>
+	<string name="page_test_title_sms">测试</string>
 </resources>
