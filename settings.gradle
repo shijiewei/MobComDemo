@@ -1,5 +1,6 @@
 include ':app'
 include ':MobCommons'
 project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/trunk')
+//project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/branches/Branches_20190416/2019.0409.1500')
 include ':MobTools'
 project(':MobTools').projectDir = new File('../../svn/ShareSDKTools/trunk')
