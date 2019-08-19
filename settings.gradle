@@ -1,7 +1,13 @@
 include ':app'
-include ':MobCommons'
-project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/trunk')
-//project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/tags/2018.1011.1129')
-include ':MobTools'
-project(':MobTools').projectDir = new File('../../svn/ShareSDKTools/trunk')
-//project(':MobTools').projectDir = new File('../../svn/ShareSDKTools/tags/2018.1009.1056')
+
+if ("dev".equals(getProperty("env"))) {
+    include ':MobCommons'
+    project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/branches/dev')
+    include ':MobTools'
+    project(':MobTools').projectDir = new File('../../svn/ShareSDKTools/branches/dev')
+} else {
+    include ':MobCommons'
+    project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/trunk')
+    include ':MobTools'
+    project(':MobTools').projectDir = new File('../../svn/ShareSDKTools/trunk')
+}
