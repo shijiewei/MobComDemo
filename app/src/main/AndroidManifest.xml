@@ -54,6 +54,11 @@
 			android:process=":p2">
 		</service>
 		<provider
+			android:name="com.mob.MobProvider"
+			android:exported="false"
+			android:multiprocess="true"
+			android:authorities="${applicationId}.com.mob.MobProvider" />
+		<provider
 			android:name="com.mob.MobFileProvider"
 			android:authorities="${applicationId}.mob_file_provider"
 			android:grantUriPermissions="true"
