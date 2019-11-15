@@ -31,8 +31,9 @@ android {
 //}
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    if (!"locallib".equals(getProperty("repo"))) {
+    if ("locallib".equals(getProperty("repo"))) {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+    } else {
         compile project(':MobCommons')
         compile project(':MobTools')
     }

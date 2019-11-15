@@ -60,12 +60,12 @@
 			android:exported="false"
 			android:multiprocess="true"
 			android:authorities="${applicationId}.com.mob.MobProvider" />
-		<provider
-			android:name="com.mob.MobFileProvider"
-			android:authorities="${applicationId}.mob_file_provider"
-			android:grantUriPermissions="true"
-			android:exported="false">
-		</provider>
+<!--		<provider-->
+<!--			android:name="com.mob.MobFileProvider"-->
+<!--			android:authorities="${applicationId}.mob_file_provider"-->
+<!--			android:grantUriPermissions="true"-->
+<!--			android:exported="false">-->
+<!--		</provider>-->
 	</application>
 
 </manifest>
