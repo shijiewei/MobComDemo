@@ -1,6 +1,7 @@
 package com.example.jack.mobcomdemo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
