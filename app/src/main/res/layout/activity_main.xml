@@ -14,11 +14,11 @@
 		android:id="@+id/btn_policy_txt"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="查看隐私策略（富文本）"/>
+		android:text="查看隐私策略（富文本/异步）"/>
 	<Button
 		android:id="@+id/btn_policy_url"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="查看隐私策略（URL）"/>
+		android:text="查看隐私策略（URL/同步）"/>
 
 </LinearLayout>

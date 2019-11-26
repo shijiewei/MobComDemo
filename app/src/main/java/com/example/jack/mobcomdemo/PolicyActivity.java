@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.jack.mobcomdemo.companent.PolicyWebView;
 import com.mob.MobSDK;
-import com.mob.commons.entity.PrivacyPolicy;
+import com.mob.PrivacyPolicy;
 
 public class PolicyActivity extends Activity {
 	public static final String EXTRA_POLICY_TYPE = "extra_policy_type";

@@ -11,8 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.mob.MobSDK;
-import com.mob.OperationCallback;
-import com.mob.commons.entity.PrivacyPolicy;
+import com.mob.PrivacyPolicy;
 
 import java.util.ArrayList;
 
@@ -104,22 +103,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private void getPolicy(final boolean autoJump, final int... types) {
 		for (final int type : types) {
 			if (type == MobSDK.POLICY_TYPE_URL) {
-				MobSDK.getPrivacyPolicy(MobSDK.POLICY_TYPE_URL, new OperationCallback<PrivacyPolicy>() {
+				new Thread(new Runnable() {
 					@Override
-					public void onComplete(PrivacyPolicy data) {
-						policyUrl = data;
-						if (autoJump) {
+					public void run() {
+						policyUrl = MobSDK.getPrivacyPolicy(MobSDK.POLICY_TYPE_URL);
+						if (autoJump && policyUrl != null) {
 							gotoPolicyActivity(MobSDK.POLICY_TYPE_URL);
 						}
 					}
-
-					@Override
-					public void onFailure(Throwable t) {
-							Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-					}
-				});
+				}).start();
 			} else if (type == MobSDK.POLICY_TYPE_TXT) {
-				MobSDK.getPrivacyPolicy(MobSDK.POLICY_TYPE_TXT, new OperationCallback<PrivacyPolicy>() {
+				MobSDK.getPrivacyPolicyAsync(MobSDK.POLICY_TYPE_TXT, new PrivacyPolicy.OnPolicyListener() {
 					@Override
 					public void onComplete(PrivacyPolicy data) {
 						policyTxt = data;
