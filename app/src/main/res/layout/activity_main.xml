@@ -11,9 +11,14 @@
 		android:layout_height="wrap_content"
 		android:text="test"/>
 	<Button
-		android:id="@+id/btn2"
+		android:id="@+id/btn_policy_txt"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="test2"/>
+		android:text="查看隐私策略（富文本）"/>
+	<Button
+		android:id="@+id/btn_policy_url"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="查看隐私策略（URL）"/>
 
 </LinearLayout>

@@ -38,6 +38,7 @@
 			android:screenOrientation="portrait"
 			android:theme="@style/MobShellTheme"
 			android:windowSoftInputMode="stateHidden|adjustResize" />
+		<activity android:name=".PolicyActivity"/>
 
 		<meta-data
 			android:name="Mob-AppKey"

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center"
+	android:orientation="vertical">
+	<TextView
+		android:id="@+id/page_policy_title_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="10dp"
+		android:gravity="center"
+		android:textSize="22dp"
+		tools:text="隐私协议"/>
+	<ScrollView
+		android:id="@+id/page_policy_container_sv"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<TextView
+			android:id="@+id/page_policy_tv"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:padding="10dp"
+			tools:text="隐私协议"/>
+	</ScrollView>
+	<com.example.jack.mobcomdemo.companent.PolicyWebView
+		android:id="@+id/page_policy_wv"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="gone"/>
+</LinearLayout>
