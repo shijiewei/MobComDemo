@@ -6,12 +6,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.mob.MobSDK;
 import com.mob.PrivacyPolicy;
+import com.mob.tools.utils.UIHandler;
 
 import java.util.ArrayList;
 
@@ -107,8 +110,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
 					@Override
 					public void run() {
 						policyUrl = MobSDK.getPrivacyPolicy(MobSDK.POLICY_TYPE_URL);
-						if (autoJump && policyUrl != null) {
-							gotoPolicyActivity(MobSDK.POLICY_TYPE_URL);
+						if (policyUrl != null) {
+							if (autoJump) {
+								gotoPolicyActivity(MobSDK.POLICY_TYPE_URL);
+							}
+						} else {
+							UIHandler.sendEmptyMessage(0, new Handler.Callback() {
+								@Override
+								public boolean handleMessage(Message msg) {
+									Toast.makeText(MainActivity.this,
+											"type: url" + "\nCan not get privacy policy", Toast.LENGTH_SHORT).show();
+									return false;
+								}
+							});
 						}
 					}
 				}).start();
@@ -124,7 +138,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 					@Override
 					public void onFailure(Throwable t) {
-							Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+						Toast.makeText(MainActivity.this,
+								"type: txt" + "\n" + t.getMessage(), Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
