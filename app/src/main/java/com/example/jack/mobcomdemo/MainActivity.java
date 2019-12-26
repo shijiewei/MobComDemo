@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Button policyWb;
 	private Button openPolicyBtn;
 	private Button openPermissionBtn;
+	private Button isForbBtn;
 	private PrivacyPolicy policyUrl;
 	private PrivacyPolicy policyTxt;
 
@@ -78,6 +79,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			}
 			case R.id.btn_permission_dialog: {
 				openPermissionDialog();
+				break;
+			}
+			case R.id.btn_isforb: {
+				invokeIsForb();
+				break;
 			}
 		}
 	}
@@ -123,6 +129,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		policyWb.setOnClickListener(this);
 		openPolicyBtn = findViewById(R.id.btn_privacy_dialog);
 		openPolicyBtn.setOnClickListener(this);
+		isForbBtn = findViewById(R.id.btn_isforb);
+		isForbBtn.setOnClickListener(this);
 		openPermissionBtn = findViewById(R.id.btn_permission_dialog);
 		openPermissionBtn.setOnClickListener(this);
 	}
@@ -184,13 +192,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	private void testMobCommon() {
 		// 模拟sdk接口调用isForb()
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				boolean isForb = MobSDK.isForb();
-				Log.d(TAG, "Got isForb: " + isForb);
-			}
-		}).start();
+		invokeIsForb();
 		// 模拟sdk接口生成duid()（但其实没必要，sdk最先调用的肯定是isForb接口，其内部已经有锁控制了）
 		new Thread(new Runnable() {
 			@Override
@@ -283,5 +285,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Log.d(TAG, "权限提示框授权结果提交：失败");
 			}
 		});
+	}
+
+	private void invokeIsForb() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				final boolean isForb = MobSDK.isForb();
+				Log.d(TAG, "Got isForb: " + isForb);
+				UIHandler.sendEmptyMessage(0, new Handler.Callback() {
+					@Override
+					public boolean handleMessage(Message message) {
+						Toast.makeText(MainActivity.this, "isForb: " + isForb, Toast.LENGTH_SHORT).show();
+						return false;
+					}
+				});
+			}
+		}).start();
 	}
 }
