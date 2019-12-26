@@ -7,24 +7,6 @@ public class SPHelper {
 	private static final int SDK_SP_VERSION = 2;
 	private static final int VCODE_SP_VERSION = 1;
 
-	private static final String KEY_TOKEN = "token";
-	private static final String KEY_CONFIG = "config";
-	private static final String KEY_BUFFERED_COUNTRYLIST = "bufferedCountryList";
-	private static final String KEY_LAST_ZONE_AT = "lastZoneAt";
-	private static final String KEY_BUFFERED_CONTACT_SIGNATURE = "bufferedContactsSignature";
-	private static final String KEY_BUFFERED_CONTACT = "bufferedContacts";
-	private static final String KEY_BUFFERED_FRIENDS = "bufferedFriends";
-	private static final String KEY_BUFFERED_NEW_FRIENDS = "bufferedNewFriends";
-	private static final String KEY_LAST_REQUEST_NEW_FRIENDS_TIME = "lastRequestNewFriendsTime";
-	private static final String KEY_BUFFERED_CONTACT_PHONES = "bufferedContactPhones";
-	private static final String KEY_READ_CONTACT = "read_contact";
-	private static final String KEY_READ_CONTACT_WARN = "read_contact_warn";
-	private static final String KEY_VERIFY_COUNTRY = "verify_country";
-	private static final String KEY_VERIFY_PHONE = "verify_phone";
-
-	private static final String KEY_VCODE_HASH = "KEY_VCODE_HASH";
-	private static final String KEY_SMSID = "KEY_SMSID";
-	private static final String KEY_LOG = "KEY_LOG";
 	private static final String KEY_NOT_SHOW_AGAIN = "not_show_again";
 
 	private static SPHelper instance;
@@ -40,9 +22,9 @@ public class SPHelper {
 	
 	private SPHelper() {
 		spSDK = new SharePrefrenceHelper(MobSDK.getContext());
-		spSDK.open("COMMON", SDK_SP_VERSION);
+		spSDK.open("COMMON_DEMO", SDK_SP_VERSION);
 		spVCODE = new SharePrefrenceHelper(MobSDK.getContext());
-		spVCODE.open("COMMON", VCODE_SP_VERSION);
+		spVCODE.open("COMMON_DEMO", VCODE_SP_VERSION);
 	}
 
 //	public String getConfig() throws Throwable {
