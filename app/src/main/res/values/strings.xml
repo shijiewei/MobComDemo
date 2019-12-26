@@ -2,4 +2,21 @@
 	<string name="app_name">MobComDemo</string>
 	<string name="page_test_title_bar_back"><![CDATA[<]]></string>
 	<string name="page_test_title_sms">测试</string>
+
+	<!-- 隐私协议框 -->
+	<string name="smssdk_privacy_dialog_title">隐私协议</string>
+	<string name="smssdk_privacy_dialog_ask">请阅读以下条款并授权：</string>
+	<string name="smssdk_privacy_dialog_read_privacy">《MobTech隐私协议》</string>
+	<string name="smssdk_privacy_dialog_usage">点击同意即表示接受</string>
+	<string name="smssdk_privacy_dialog_reject">拒绝</string>
+	<string name="smssdk_privacy_dialog_accept">同意</string>
+
+	<!-- 权限提示框 -->
+	<string name="smssdk_authorize_dialog_title">权限提示</string>
+	<string name="smssdk_authorize_dialog_ask">是否同意获得以下权限</string>
+	<string name="smssdk_authorize_dialog_permission">读取通讯录联系人</string>
+	<string name="smssdk_authorize_dialog_usage">用于添加通讯录好友等操作。</string>
+	<string name="smssdk_authorize_dialog_do_not_ask_again">不再询问</string>
+	<string name="smssdk_authorize_dialog_reject">拒绝</string>
+	<string name="smssdk_authorize_dialog_accept">同意</string>
 </resources>

@@ -12,4 +12,12 @@
 	<color name="mob_verify_text_color_common_gray_light">#CCCCCC</color>
 	<color name="mob_verify_gui_text_color_common_gray_lighter">#F2F2F2</color>
 	<color name="mob_verify_text_color_common_orange">#FF6600</color>
+
+	<!-- 权限提示框 -->
+	<color name="smssdk_common_white">#FFFFFF</color>
+	<color name="smssdk_common_black">#202122</color>
+	<color name="smssdk_common_text_gray">#555555</color>
+	<color name="smssdk_common_main_color">#00D69C</color>
+	<color name="smssdk_common_transparent">#FFFFFFFF</color>
+	<color name="smssdk_common_line_gray">#F5F5F5</color>
 </resources>

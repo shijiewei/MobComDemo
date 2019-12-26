@@ -13,4 +13,9 @@
 	<dimen name="mob_verify_sms_verify_margin_left_right">10dp</dimen>
 	<dimen name="mob_verify_sms_verify_margin_left">10dp</dimen>
 	<dimen name="mob_verify_common_et_padding_top_bottom">5dp</dimen>
+
+	<!-- 权限提示框 -->
+	<dimen name="smssdk_authorize_text_size_l">18dp</dimen>
+	<dimen name="smssdk_authorize_text_size_m">16dp</dimen>
+	<dimen name="smssdk_authorize_text_size_s">14dp</dimen>
 </resources>

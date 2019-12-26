@@ -20,5 +20,14 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="查看隐私策略（URL/同步）"/>
-
+	<Button
+		android:id="@+id/btn_privacy_dialog"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="打开隐私协议弹框"/>
+	<Button
+		android:id="@+id/btn_permission_dialog"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="打开权限提示弹框"/>
 </LinearLayout>
