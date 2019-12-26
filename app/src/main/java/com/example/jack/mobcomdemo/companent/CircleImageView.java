@@ -7,8 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -42,7 +44,15 @@ public class CircleImageView extends ImageView {
 		mPaint = new Paint();
 		Drawable drawable = getDrawable();
 		if (null != drawable) {
-			Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+			Bitmap bitmap;
+			if (Build.VERSION.SDK_INT >= 26 && drawable instanceof AdaptiveIconDrawable) {
+				bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+				Canvas cvs = new Canvas(bitmap);
+				drawable.setBounds(0, 0, cvs.getWidth(), cvs.getHeight());
+				drawable.draw(cvs);
+			} else {
+				bitmap = ((BitmapDrawable) drawable).getBitmap();
+			}
 			//初始化BitmapShader，传入bitmap对象
 			BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 			//计算缩放比例
