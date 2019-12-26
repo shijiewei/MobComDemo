@@ -60,7 +60,7 @@ public class AuthorizeDialog extends AlertDialog {
 		setCancelable(false);
 		setCanceledOnTouchOutside(false);
 		LayoutInflater inflater = LayoutInflater.from(this.context);
-		view = inflater.inflate(ResHelper.getLayoutRes(context, "smssdk_authorize_dialog"), null);
+		view = inflater.inflate(ResHelper.getLayoutRes(context, "authorize_dialog"), null);
 	}
 
 	@Override
