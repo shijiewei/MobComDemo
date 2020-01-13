@@ -14,13 +14,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.jack.mobcomdemo.entity.UiSettings;
-import com.example.jack.mobcomdemo.ui.AuthorizeDialog;
 import com.example.jack.mobcomdemo.ui.PrivacyDialog;
 import com.example.jack.mobcomdemo.util.Const;
+import com.example.jack.mobcomdemo.util.DemoResHelper;
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
 import com.mob.commons.authorize.DeviceAuthorizer;
+import com.mob.commons.dialog.entity.InternalPolicyUi;
+import com.mob.commons.dialog.entity.MobPolicyUi;
 import com.mob.tools.utils.UIHandler;
 
 import java.util.ArrayList;
@@ -35,6 +37,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Button isForbBtn;
 	private PrivacyPolicy policyUrl;
 	private PrivacyPolicy policyTxt;
+	private Button toggleDialogDevSwitchBtn;
+	private Button toggleDialogDevStyleBtn;
+	private boolean dialogDevSwitch = true;
+	private boolean dialogDevStyleDefault = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +83,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				openPrivacyDialog();
 				break;
 			}
+			case R.id.btn_permission_dialog_dev_switch: {
+				toggleDialogDevSwitch();
+				break;
+			}
+			case R.id.btn_permission_dialog_dev_style: {
+				toggleDialogDevStyle();
+				break;
+			}
 			case R.id.btn_permission_dialog: {
-				openPermissionDialog();
+				openResubmitDialog();
 				break;
 			}
 			case R.id.btn_isforb: {
@@ -131,6 +145,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		openPolicyBtn.setOnClickListener(this);
 		isForbBtn = findViewById(R.id.btn_isforb);
 		isForbBtn.setOnClickListener(this);
+		toggleDialogDevSwitchBtn = findViewById(R.id.btn_permission_dialog_dev_switch);
+		toggleDialogDevSwitchBtn.setOnClickListener(this);
+		toggleDialogDevStyleBtn = findViewById(R.id.btn_permission_dialog_dev_style);
+		toggleDialogDevStyleBtn.setOnClickListener(this);
 		openPermissionBtn = findViewById(R.id.btn_permission_dialog);
 		openPermissionBtn.setOnClickListener(this);
 	}
@@ -227,29 +245,72 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		dialog.show();
 	}
 
-	private void openPermissionDialog() {
-		OnDialogListener onDialogListener = new OnDialogListener() {
-			@Override
-			public void onAgree(boolean doNotAskAgain) {
-				requestContactPermission();
-				Log.d(TAG, "权限提示弹框操作：同意");
-				submitPermissionGrantResult(true);
-			}
+	private void toggleDialogDevSwitch() {
+		dialogDevSwitch = !dialogDevSwitch;
+		// 开发者设置是否允许弹出二次确认框(默认true)
+		// 需在使用SDK接口前调用，否则不生效
+		MobSDK.setAllowDialog(dialogDevSwitch);
+	}
 
-			@Override
-			public void onDisagree(boolean doNotAskAgain) {
-				requestContactPermission();
-				Log.d(TAG, "权限提示弹框操作：拒绝");
-				submitPermissionGrantResult(false);
-			}
+	private void toggleDialogDevStyle() {
+		MobPolicyUi.Builder mobPolicyUi;
+		dialogDevStyleDefault = !dialogDevStyleDefault;
+		if (dialogDevStyleDefault) {
+			// 开发者自定义弹窗样式（默认）
+			mobPolicyUi = new MobPolicyUi.Builder()
+					.setBackgroundColorId(R.color.smssdk_common_white)
+					.setPositiveBtnColorId(R.color.smssdk_common_main_color)
+					.setNegativeBtnColorId(R.color.smssdk_common_white);
+		} else {
+			// 开发者自定义弹窗样式（自定义）
+			mobPolicyUi = new MobPolicyUi.Builder()
+					.setBackgroundColorId(R.color.smssdk_test_color)
+					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
+					.setNegativeBtnColorId(R.color.smssdk_common_main_color);
+		}
+		// 需在使用SDK接口前调用，否则不生效
+		MobSDK.setPolicyUi(mobPolicyUi.build());
+	}
 
+	private void openResubmitDialog() {
+		new Thread(new Runnable() {
 			@Override
-			public void onNotShow() {
-				Log.d(TAG, "AuthorizeDialog not show");
+			public void run() {
+				boolean isForb = MobSDK.isForb();
+				Log.d(TAG, "isForb: " + isForb);
+				if (!isForb) {
+					// SDK自定义弹窗内容
+					InternalPolicyUi internalPolicyUi = new InternalPolicyUi.Builder()
+							.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
+									MainActivity.this, "mobdemo_authorize_dialog_title")))
+							.setContentText(DemoResHelper.getString(DemoResHelper.getStringRes(
+									MainActivity.this, "mobdemo_authorize_dialog_content")))
+							.build();
+					MobSDK.canIContinueBusiness(Const.PRODUCT, internalPolicyUi, new OperationCallback<Boolean>() {
+						@Override
+						public void onComplete(final Boolean data) {
+							UIHandler.sendEmptyMessage(0, new Handler.Callback() {
+								@Override
+								public boolean handleMessage(Message message) {
+									Log.d(TAG, "canIContinueBusiness: " + data);
+									if (data) {
+										Toast.makeText(MainActivity.this, "SDK业务：继续", Toast.LENGTH_SHORT).show();
+									} else {
+										Toast.makeText(MainActivity.this, "SDK业务：终止", Toast.LENGTH_SHORT).show();
+									}
+									return false;
+								}
+							});
+						}
+
+						@Override
+						public void onFailure(Throwable t) {
+							Log.d(TAG, "canIContinueBusiness: onFailure()", t);
+						}
+					});
+				}
 			}
-		};
-		AuthorizeDialog dialog = new AuthorizeDialog(this, onDialogListener);
-		dialog.show();
+		}).start();
 	}
 
 	private void requestContactPermission() {
@@ -269,20 +330,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			@Override
 			public void onFailure(Throwable t) {
 				Log.d(TAG, "隐私协议授权结果提交：失败");
-			}
-		});
-	}
-
-	private void submitPermissionGrantResult(boolean granted) {
-		MobSDK.submitPermissionGrantResult(granted, Const.PRODUCT, new OperationCallback<Void>() {
-			@Override
-			public void onComplete(Void data) {
-				Log.d(TAG, "权限提示框授权结果提交：成功");
-			}
-
-			@Override
-			public void onFailure(Throwable t) {
-				Log.d(TAG, "权限提示框授权结果提交：失败");
 			}
 		});
 	}

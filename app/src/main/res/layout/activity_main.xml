@@ -26,6 +26,16 @@
 		android:layout_height="wrap_content"
 		android:text="打开隐私协议弹框"/>
 	<Button
+		android:id="@+id/btn_permission_dialog_dev_switch"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="切换开发者设置的弹窗开关"/>
+	<Button
+		android:id="@+id/btn_permission_dialog_dev_style"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="切换开发者自定义的弹窗样式"/>
+	<Button
 		android:id="@+id/btn_permission_dialog"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

@@ -20,4 +20,5 @@
 	<color name="smssdk_common_main_color">#00D69C</color>
 	<color name="smssdk_common_transparent">#FFFFFFFF</color>
 	<color name="smssdk_common_line_gray">#F5F5F5</color>
+	<color name="smssdk_test_color">#4E96FF</color>
 </resources>
