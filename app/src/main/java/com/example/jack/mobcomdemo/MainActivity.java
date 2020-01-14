@@ -39,8 +39,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private PrivacyPolicy policyTxt;
 	private Button toggleDialogDevSwitchBtn;
 	private Button toggleDialogDevStyleBtn;
+	private Button toggleDialogSdkContentBtn;
 	private boolean dialogDevSwitch = true;
 	private boolean dialogDevStyleDefault = true;
+	private boolean dialogSdkContentDefault = false;
+	private InternalPolicyUi internalPolicyUi;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			}
 			case R.id.btn_permission_dialog_dev_style: {
 				toggleDialogDevStyle();
+				break;
+			}
+			case R.id.btn_permission_dialog_sdk_content: {
+				toggleDialogSdkContent();
 				break;
 			}
 			case R.id.btn_permission_dialog: {
@@ -149,6 +156,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		toggleDialogDevSwitchBtn.setOnClickListener(this);
 		toggleDialogDevStyleBtn = findViewById(R.id.btn_permission_dialog_dev_style);
 		toggleDialogDevStyleBtn.setOnClickListener(this);
+		toggleDialogSdkContentBtn = findViewById(R.id.btn_permission_dialog_sdk_content);
+		toggleDialogSdkContentBtn.setOnClickListener(this);
 		openPermissionBtn = findViewById(R.id.btn_permission_dialog);
 		openPermissionBtn.setOnClickListener(this);
 	}
@@ -211,6 +220,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private void testMobCommon() {
 		// 模拟sdk接口调用isForb()
 		invokeIsForb();
+		// 设置二次确认框默认内容
+		toggleDialogSdkContent();
 		// 模拟sdk接口生成duid()（但其实没必要，sdk最先调用的肯定是isForb接口，其内部已经有锁控制了）
 		new Thread(new Runnable() {
 			@Override
@@ -253,23 +264,42 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void toggleDialogDevStyle() {
-		MobPolicyUi.Builder mobPolicyUi;
+		MobPolicyUi.Builder mobPolicyUi = new MobPolicyUi.Builder();
 		dialogDevStyleDefault = !dialogDevStyleDefault;
 		if (dialogDevStyleDefault) {
 			// 开发者自定义弹窗样式（默认）
-			mobPolicyUi = new MobPolicyUi.Builder()
+			mobPolicyUi
 					.setBackgroundColorId(R.color.smssdk_common_white)
 					.setPositiveBtnColorId(R.color.smssdk_common_main_color)
 					.setNegativeBtnColorId(R.color.smssdk_common_white);
 		} else {
 			// 开发者自定义弹窗样式（自定义）
-			mobPolicyUi = new MobPolicyUi.Builder()
+			mobPolicyUi
 					.setBackgroundColorId(R.color.smssdk_test_color)
 					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
 					.setNegativeBtnColorId(R.color.smssdk_common_main_color);
 		}
 		// 需在使用SDK接口前调用，否则不生效
 		MobSDK.setPolicyUi(mobPolicyUi.build());
+	}
+
+	private void toggleDialogSdkContent() {
+		InternalPolicyUi.Builder internalPolicyUiBuilder = new InternalPolicyUi.Builder();
+		dialogSdkContentDefault = !dialogSdkContentDefault;
+		if (dialogSdkContentDefault) {
+			internalPolicyUiBuilder
+					.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
+							MainActivity.this, "mobdemo_authorize_dialog_title")))
+					.setContentText(DemoResHelper.getString(DemoResHelper.getStringRes(
+							MainActivity.this, "mobdemo_authorize_dialog_content")));
+		} else {
+			internalPolicyUiBuilder
+					.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
+							MainActivity.this, "mobdemo_authorize_dialog_title2")))
+					.setContentText(DemoResHelper.getString(DemoResHelper.getStringRes(
+							MainActivity.this, "mobdemo_authorize_dialog_content2")));
+		}
+		internalPolicyUi = internalPolicyUiBuilder.build();
 	}
 
 	private void openResubmitDialog() {
@@ -279,33 +309,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				boolean isForb = MobSDK.isForb();
 				Log.d(TAG, "isForb: " + isForb);
 				if (!isForb) {
-					// SDK自定义弹窗内容
-					InternalPolicyUi internalPolicyUi = new InternalPolicyUi.Builder()
-							.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
-									MainActivity.this, "mobdemo_authorize_dialog_title")))
-							.setContentText(DemoResHelper.getString(DemoResHelper.getStringRes(
-									MainActivity.this, "mobdemo_authorize_dialog_content")))
-							.build();
 					MobSDK.canIContinueBusiness(Const.PRODUCT, internalPolicyUi, new OperationCallback<Boolean>() {
 						@Override
 						public void onComplete(final Boolean data) {
-							UIHandler.sendEmptyMessage(0, new Handler.Callback() {
-								@Override
-								public boolean handleMessage(Message message) {
-									Log.d(TAG, "canIContinueBusiness: " + data);
-									if (data) {
-										Toast.makeText(MainActivity.this, "SDK业务：继续", Toast.LENGTH_SHORT).show();
-									} else {
-										Toast.makeText(MainActivity.this, "SDK业务：终止", Toast.LENGTH_SHORT).show();
-									}
-									return false;
-								}
-							});
+							Log.d(TAG, "canIContinueBusiness: onComplete(), " + data);
+							if (data) {
+								onContinue();
+							} else {
+								onDisturb();
+							}
 						}
 
 						@Override
 						public void onFailure(Throwable t) {
 							Log.d(TAG, "canIContinueBusiness: onFailure()", t);
+							onDisturb();
 						}
 					});
 				}
@@ -349,5 +367,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				});
 			}
 		}).start();
+	}
+
+	private void onContinue() {
+		UIHandler.sendEmptyMessage(0, new Handler.Callback() {
+			@Override
+			public boolean handleMessage(Message message) {
+				Toast.makeText(MainActivity.this, "SDK业务：继续", Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		});
+	}
+
+	private void onDisturb() {
+		UIHandler.sendEmptyMessage(0, new Handler.Callback() {
+			@Override
+			public boolean handleMessage(Message message) {
+				Toast.makeText(MainActivity.this, "SDK业务：终止", Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		});
 	}
 }
