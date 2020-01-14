@@ -262,6 +262,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		// 开发者设置是否允许弹出二次确认框(默认true)
 		// 需在使用SDK接口前调用，否则不生效
 		MobSDK.setAllowDialog(dialogDevSwitch);
+		Toast.makeText(this, "开发者开关已打开：" + dialogDevSwitch, Toast.LENGTH_SHORT).show();
 	}
 
 	private void toggleDialogDevStyle() {
@@ -280,6 +281,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
 					.setNegativeBtnColorId(R.color.smssdk_common_main_color);
 		}
+		Toast.makeText(this, "使用默认样式：" + dialogDevStyleDefault, Toast.LENGTH_SHORT).show();
 		// 需在使用SDK接口前调用，否则不生效
 		MobSDK.setPolicyUi(mobPolicyUi.build());
 	}
@@ -301,6 +303,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 							MainActivity.this, "mobdemo_authorize_dialog_content2")));
 		}
 		internalPolicyUi = internalPolicyUiBuilder.build();
+		Toast.makeText(this, "使用默认内容：" + dialogSdkContentDefault, Toast.LENGTH_SHORT).show();
 	}
 
 	private void openResubmitDialog() {
