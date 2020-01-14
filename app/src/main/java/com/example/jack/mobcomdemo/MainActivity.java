@@ -20,6 +20,7 @@ import com.example.jack.mobcomdemo.util.DemoResHelper;
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
+import com.mob.RHolder;
 import com.mob.commons.authorize.DeviceAuthorizer;
 import com.mob.commons.dialog.entity.InternalPolicyUi;
 import com.mob.commons.dialog.entity.MobPolicyUi;
@@ -309,6 +310,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				boolean isForb = MobSDK.isForb();
 				Log.d(TAG, "isForb: " + isForb);
 				if (!isForb) {
+
+					// 设置二次确认框的必要资源文件
+					RHolder.getInstance()
+							.setActivityThemeId(DemoResHelper.getStyleRes(MainActivity.this, "mobcommon_TranslucentTheme"))
+							.setDialogThemeId(DemoResHelper.getStyleRes(MainActivity.this, "mobcommon_DialogStyle"))
+							.setDialogLayoutId(DemoResHelper.getLayoutRes(MainActivity.this, "mob_authorize_dialog"));
 					MobSDK.canIContinueBusiness(Const.PRODUCT, internalPolicyUi, new OperationCallback<Boolean>() {
 						@Override
 						public void onComplete(final Boolean data) {
