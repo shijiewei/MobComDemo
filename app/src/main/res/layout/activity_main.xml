@@ -44,7 +44,7 @@
 		android:id="@+id/btn_permission_dialog"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="打开权限提示弹框"/>
+		android:text="打开隐私二次确认框"/>
 	<Button
 		android:id="@+id/btn_isforb"
 		android:layout_width="wrap_content"
