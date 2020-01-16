@@ -50,4 +50,9 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="调用isForb()接口"/>
+	<Button
+		android:id="@+id/btn_isMob"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="调用isMob()接口"/>
 </LinearLayout>

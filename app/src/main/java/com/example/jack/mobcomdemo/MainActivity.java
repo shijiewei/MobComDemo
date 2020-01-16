@@ -36,6 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Button openPolicyBtn;
 	private Button openPermissionBtn;
 	private Button isForbBtn;
+	private Button isMobBtn;
 	private PrivacyPolicy policyUrl;
 	private PrivacyPolicy policyTxt;
 	private Button toggleDialogDevSwitchBtn;
@@ -107,6 +108,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				invokeIsForb();
 				break;
 			}
+			case R.id.btn_isMob: {
+				invokeIsMob();
+				break;
+			}
 		}
 	}
 
@@ -153,6 +158,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		openPolicyBtn.setOnClickListener(this);
 		isForbBtn = findViewById(R.id.btn_isforb);
 		isForbBtn.setOnClickListener(this);
+		isMobBtn = findViewById(R.id.btn_isMob);
+		isMobBtn.setOnClickListener(this);
 		toggleDialogDevSwitchBtn = findViewById(R.id.btn_permission_dialog_dev_switch);
 		toggleDialogDevSwitchBtn.setOnClickListener(this);
 		toggleDialogDevStyleBtn = findViewById(R.id.btn_permission_dialog_dev_style);
@@ -266,24 +273,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void toggleDialogDevStyle() {
-		MobPolicyUi.Builder mobPolicyUi = new MobPolicyUi.Builder();
-		dialogDevStyleDefault = !dialogDevStyleDefault;
-		if (dialogDevStyleDefault) {
-			// 开发者自定义弹窗样式（默认）
-			mobPolicyUi
-					.setBackgroundColorId(R.color.smssdk_common_white)
-					.setPositiveBtnColorId(R.color.smssdk_common_main_color)
-					.setNegativeBtnColorId(R.color.smssdk_common_white);
-		} else {
-			// 开发者自定义弹窗样式（自定义）
-			mobPolicyUi
-					.setBackgroundColorId(R.color.smssdk_test_color)
-					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
-					.setNegativeBtnColorId(R.color.smssdk_common_main_color);
-		}
+//		MobPolicyUi.Builder mobPolicyUi = new MobPolicyUi.Builder();
+//		dialogDevStyleDefault = !dialogDevStyleDefault;
+//		if (dialogDevStyleDefault) {
+//			// 开发者自定义弹窗样式（默认）
+//			mobPolicyUi
+//					.setBackgroundColorId(R.color.smssdk_common_white)
+//					.setPositiveBtnColorId(R.color.smssdk_common_main_color)
+//					.setNegativeBtnColorId(R.color.smssdk_common_white);
+//		} else {
+//			// 开发者自定义弹窗样式（自定义）
+//			mobPolicyUi
+//					.setBackgroundColorId(R.color.smssdk_test_color)
+//					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
+//					.setNegativeBtnColorId(R.color.smssdk_common_main_color);
+//		}
 		Toast.makeText(this, "使用默认样式：" + dialogDevStyleDefault, Toast.LENGTH_SHORT).show();
+		// 开发者自定义弹窗样式（默认）
+		MobPolicyUi mobPolicyUi = new MobPolicyUi.Builder()
+				.setBackgroundColorId(R.color.smssdk_common_white)
+				.setPositiveBtnColorId(R.color.smssdk_common_main_color)
+				.setNegativeBtnColorId(R.color.smssdk_common_white)
+				.build();
 		// 需在使用SDK接口前调用，否则不生效
-		MobSDK.setPolicyUi(mobPolicyUi.build());
+		MobSDK.setPolicyUi(mobPolicyUi);
 	}
 
 	private void toggleDialogSdkContent() {
@@ -304,6 +317,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		}
 		internalPolicyUi = internalPolicyUiBuilder.build();
 		Toast.makeText(this, "使用默认内容：" + dialogSdkContentDefault, Toast.LENGTH_SHORT).show();
+		InternalPolicyUi internalPolicyUi = new InternalPolicyUi.Builder()
+				.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
+						MainActivity.this, "mobdemo_authorize_dialog_title")))
+				.setContentText(DemoResHelper.getString(DemoResHelper.getStringRes(
+						MainActivity.this, "mobdemo_authorize_dialog_content")))
+				.build();
 	}
 
 	private void openResubmitDialog() {
@@ -372,6 +391,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
 					@Override
 					public boolean handleMessage(Message message) {
 						Toast.makeText(MainActivity.this, "isForb: " + isForb, Toast.LENGTH_SHORT).show();
+						return false;
+					}
+				});
+			}
+		}).start();
+	}
+
+	private void invokeIsMob() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				final boolean isMob = MobSDK.isMob();
+				Log.d(TAG, "Got isMob: " + isMob);
+				UIHandler.sendEmptyMessage(0, new Handler.Callback() {
+					@Override
+					public boolean handleMessage(Message message) {
+						Toast.makeText(MainActivity.this, "isMob: " + isMob, Toast.LENGTH_SHORT).show();
 						return false;
 					}
 				});
