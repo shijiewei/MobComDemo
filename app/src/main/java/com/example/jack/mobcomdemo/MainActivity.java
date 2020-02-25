@@ -284,10 +284,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		} else {
 			// 开发者自定义弹窗样式（自定义）
 			mobPolicyUi
-					.setBackgroundColorId(R.color.smssdk_test_color)
-					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
-					.setNegativeBtnColorId(R.color.smssdk_common_main_color);
+					// 注意：颜色资源ID与颜色值同时设置时，颜色资源ID生效
 //					.setBackgroundColorId(R.color.smssdk_test_color)
+//					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
 //					.setNegativeBtnColorId(R.color.smssdk_common_main_color)
 					.setBackgroundColorStr("#00D69C")
 					.setPositiveBtnColorStr("#FF6600")
