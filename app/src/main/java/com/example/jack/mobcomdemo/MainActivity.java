@@ -287,6 +287,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 					.setBackgroundColorId(R.color.smssdk_test_color)
 					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
 					.setNegativeBtnColorId(R.color.smssdk_common_main_color);
+//					.setBackgroundColorId(R.color.smssdk_test_color)
+//					.setNegativeBtnColorId(R.color.smssdk_common_main_color)
+					.setBackgroundColorStr("#00D69C")
+					.setPositiveBtnColorStr("#FF6600")
+					.setNegativeBtnColorStr("#FF4081");
 		}
 		Toast.makeText(this, "使用默认样式：" + dialogDevStyleDefault, Toast.LENGTH_SHORT).show();
 		// 需在使用SDK接口前调用，否则不生效
