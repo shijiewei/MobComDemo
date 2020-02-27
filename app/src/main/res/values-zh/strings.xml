@@ -21,14 +21,14 @@
 	<string name="smssdk_authorize_dialog_accept">同意</string>
 
 	<!-- 二次确认框 -->
-	<string name="mobdemo_authorize_dialog_title">Terms of Use</string>
-	<string name="mobdemo_authorize_dialog_title2">Customized Title</string>
-	<string name="mobdemo_authorize_dialog_content_p1">In order to provide you with Mobservice, please check our service policy. For details, please click</string>
-	<string name="mobdemo_authorize_dialog_content_p2">. If you agree with our service policy, please click "accept", if you do not agree with our service policy, please click "reject"</string>
-	<string name="mobdemo_authorize_dialog_content2_p1">Customized content，details</string>
-	<string name="mobdemo_authorize_dialog_content2_p2">。If you agree with our service policy, please click "accept", if you do not agree with our service policy, please click "reject"</string>
-	<string name="mobdemo_authorize_dialog_accept_btn_text">Accept</string>
-	<string name="mobdemo_authorize_dialog_accept_btn_text2">Agree</string>
-	<string name="mobdemo_authorize_dialog_reject_btn_text">Reject</string>
-	<string name="mobdemo_authorize_dialog_reject_btn_text2">Disagree</string>
+	<string name="mobdemo_authorize_dialog_title">服务授权</string>
+	<string name="mobdemo_authorize_dialog_title2">自定义标题</string>
+	<string name="mobdemo_authorize_dialog_content_p1">为了给您提供Mobservice相关产品服务，请您详细查看我们的隐私政策，详见</string>
+	<string name="mobdemo_authorize_dialog_content_p2">。如您同意我们的隐私政策，请点击“接受”，如您不同意我们的隐私政策，请点击“拒绝”。</string>
+	<string name="mobdemo_authorize_dialog_content2_p1">自定义内容，详见</string>
+	<string name="mobdemo_authorize_dialog_content2_p2">。如您同意我们的隐私政策，请点击“接受”，如您不同意我们的隐私政策，请点击“拒绝”。</string>
+	<string name="mobdemo_authorize_dialog_accept_btn_text">同意</string>
+	<string name="mobdemo_authorize_dialog_accept_btn_text2">接受</string>
+	<string name="mobdemo_authorize_dialog_reject_btn_text">拒绝</string>
+	<string name="mobdemo_authorize_dialog_reject_btn_text2">否决</string>
 </resources>

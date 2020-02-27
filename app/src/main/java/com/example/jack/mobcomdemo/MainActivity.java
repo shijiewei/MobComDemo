@@ -27,6 +27,7 @@ import com.mob.commons.dialog.entity.MobPolicyUi;
 import com.mob.tools.utils.UIHandler;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 	private static final String TAG = MainActivity.class.getSimpleName();
@@ -45,7 +46,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private boolean dialogDevSwitch = true;
 	private boolean dialogDevStyleDefault = true;
 	private boolean dialogSdkContentDefault = false;
-	private InternalPolicyUi internalPolicyUi;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +176,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						policyUrl = MobSDK.getPrivacyPolicy(MobSDK.POLICY_TYPE_URL);
+						// 指定隐私协议语言类型，为空或不指定时，默认根据系统语言选择
+						Locale locale = getResources().getConfiguration().locale;
+						policyUrl = MobSDK.getPrivacyPolicy(MobSDK.POLICY_TYPE_URL, locale);
 						if (policyUrl != null) {
 							if (autoJump) {
 								gotoPolicyActivity(MobSDK.POLICY_TYPE_URL);
@@ -194,7 +196,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 					}
 				}).start();
 			} else if (type == MobSDK.POLICY_TYPE_TXT) {
-				MobSDK.getPrivacyPolicyAsync(MobSDK.POLICY_TYPE_TXT, new PrivacyPolicy.OnPolicyListener() {
+				// 指定隐私协议语言类型，为空或不指定时，默认根据系统语言选择
+				Locale locale = getResources().getConfiguration().locale;
+				MobSDK.getPrivacyPolicyAsync(MobSDK.POLICY_TYPE_TXT, locale, new PrivacyPolicy.OnPolicyListener() {
 					@Override
 					public void onComplete(PrivacyPolicy data) {
 						policyTxt = data;
@@ -298,23 +302,51 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void toggleDialogSdkContent() {
-		InternalPolicyUi.Builder internalPolicyUiBuilder = new InternalPolicyUi.Builder();
+		// 根据系统语言环境组装对应的Content
 		dialogSdkContentDefault = !dialogSdkContentDefault;
+		Toast.makeText(this, "使用默认内容：" + dialogSdkContentDefault, Toast.LENGTH_SHORT).show();
+	}
+
+	private InternalPolicyUi genInternalPolicyUi() {
+		String policyUrlContent = null;
+		if (policyUrl != null) {
+			policyUrlContent = policyUrl.getContent();
+		}
+		InternalPolicyUi.Builder internalPolicyUiBuilder = new InternalPolicyUi.Builder();
+		// 使用默认值
 		if (dialogSdkContentDefault) {
+			String contentP1 = DemoResHelper.getString(DemoResHelper.getStringRes(
+					MainActivity.this, "mobdemo_authorize_dialog_content_p1"));
+			String contentP2 = DemoResHelper.getString(DemoResHelper.getStringRes(
+					MainActivity.this, "mobdemo_authorize_dialog_content_p2"));
+			String content = contentP1 + " <a href=\"" + policyUrlContent + "\">" + policyUrlContent + "</a> " + contentP2;
+
 			internalPolicyUiBuilder
 					.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
 							MainActivity.this, "mobdemo_authorize_dialog_title")))
-					.setContentText(DemoResHelper.getString(DemoResHelper.getStringRes(
-							MainActivity.this, "mobdemo_authorize_dialog_content")));
+					.setContentText(content)
+					.setPositiveBtnText(DemoResHelper.getString(DemoResHelper.getStringRes(
+							MainActivity.this, "mobdemo_authorize_dialog_accept_btn_text")))
+					.setNegativeBtnText(DemoResHelper.getString(DemoResHelper.getStringRes(
+							MainActivity.this, "mobdemo_authorize_dialog_reject_btn_text")));
 		} else {
+			// 使用自定义值
+			String content2P1 = DemoResHelper.getString(DemoResHelper.getStringRes(
+					MainActivity.this, "mobdemo_authorize_dialog_content2_p1"));
+			String content2P2 = DemoResHelper.getString(DemoResHelper.getStringRes(
+					MainActivity.this, "mobdemo_authorize_dialog_content2_p2"));
+			String content2 = content2P1 + " <a href=\"" + policyUrlContent + "\">" + policyUrlContent + "</a> " + content2P2;
+
 			internalPolicyUiBuilder
 					.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
 							MainActivity.this, "mobdemo_authorize_dialog_title2")))
-					.setContentText(DemoResHelper.getString(DemoResHelper.getStringRes(
-							MainActivity.this, "mobdemo_authorize_dialog_content2")));
+					.setContentText(content2)
+					.setPositiveBtnText(DemoResHelper.getString(DemoResHelper.getStringRes(
+							MainActivity.this, "mobdemo_authorize_dialog_accept_btn_text2")))
+					.setNegativeBtnText(DemoResHelper.getString(DemoResHelper.getStringRes(
+							MainActivity.this, "mobdemo_authorize_dialog_reject_btn_text2")));
 		}
-		internalPolicyUi = internalPolicyUiBuilder.build();
-		Toast.makeText(this, "使用默认内容：" + dialogSdkContentDefault, Toast.LENGTH_SHORT).show();
+		return internalPolicyUiBuilder.build();
 	}
 
 	private void openResubmitDialog() {
@@ -330,6 +362,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 							.setActivityThemeId(DemoResHelper.getStyleRes(MainActivity.this, "mobcommon_TranslucentTheme"))
 							.setDialogThemeId(DemoResHelper.getStyleRes(MainActivity.this, "mobcommon_DialogStyle"))
 							.setDialogLayoutId(DemoResHelper.getLayoutRes(MainActivity.this, "mob_authorize_dialog"));
+					// 设置二次确认框的开发者自定义UI元素
+					InternalPolicyUi internalPolicyUi = genInternalPolicyUi();
 					MobSDK.canIContinueBusiness(Const.PRODUCT, internalPolicyUi, new OperationCallback<Boolean>() {
 						@Override
 						public void onComplete(final Boolean data) {
