@@ -4,7 +4,7 @@ import com.mob.MobSDK;
 import com.mob.commons.MobProduct;
 
 public class Const {
-	public static final String FORMAT = "[SMSSDK][%s][%s] %s";	// [SMSSDK][CLASS][METHOD] MSG
+	public static final String FORMAT = "[COMMON][%s][%s] %s";	// [SMSSDK][CLASS][METHOD] MSG
 	public static final String PERMISSION_CONTACT = "android.permission.READ_CONTACTS";
 	public static final MobProduct PRODUCT = new MobProduct() {
 		@Override
