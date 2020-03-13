@@ -21,6 +21,7 @@ import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
 import com.mob.RHolder;
+import com.mob.commons.COMMON;
 import com.mob.commons.authorize.DeviceAuthorizer;
 import com.mob.commons.dialog.entity.InternalPolicyUi;
 import com.mob.commons.dialog.entity.MobPolicyUi;
@@ -238,7 +239,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				String duid = DeviceAuthorizer.authorize(Const.PRODUCT);
+				String duid = DeviceAuthorizer.authorize(new COMMON());
 				Log.d(TAG, "Got duid: " + duid);
 			}
 		}).start();
@@ -364,7 +365,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 							.setDialogLayoutId(DemoResHelper.getLayoutRes(MainActivity.this, "mob_authorize_dialog"));
 					// 设置二次确认框的开发者自定义UI元素
 					InternalPolicyUi internalPolicyUi = genInternalPolicyUi();
-					MobSDK.canIContinueBusiness(Const.PRODUCT, internalPolicyUi, new OperationCallback<Boolean>() {
+					MobSDK.canIContinueBusiness(new COMMON(), internalPolicyUi, new OperationCallback<Boolean>() {
 						@Override
 						public void onComplete(final Boolean data) {
 							Log.d(TAG, "canIContinueBusiness: onComplete(), " + data);
