@@ -302,6 +302,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		dialog.show();
 	}
 
+	@Deprecated
 	private void openResubmitDialog() {
 		new Thread(new Runnable() {
 			@Override
