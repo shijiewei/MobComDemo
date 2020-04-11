@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -25,15 +26,12 @@ import android.widget.Toast;
 import com.example.jack.mobcomdemo.entity.UiSettings;
 import com.example.jack.mobcomdemo.ui.PrivacyDialog;
 import com.example.jack.mobcomdemo.util.Const;
-import com.example.jack.mobcomdemo.util.DemoResHelper;
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
-import com.mob.RHolder;
 import com.mob.commons.COMMON;
 import com.mob.commons.authorize.DeviceAuthorizer;
 import com.mob.commons.dialog.entity.InternalPolicyUi;
-import com.mob.commons.dialog.entity.MobPolicyUi;
 import com.mob.tools.MobLog;
 import com.mob.tools.utils.DeviceHelper;
 import com.mob.tools.utils.SmltHelper;
@@ -68,12 +66,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Button isMobBtn;
 	private PrivacyPolicy policyUrl;
 	private PrivacyPolicy policyTxt;
-	private Button toggleDialogDevSwitchBtn;
-	private Button toggleDialogDevStyleBtn;
-	private Button toggleDialogSdkContentBtn;
-	private boolean dialogDevSwitch = true;
-	private boolean dialogDevStyleDefault = true;
-	private boolean dialogSdkContentDefault = false;
+	private Button loopRequestIsAuthBtn;
+	private Button isAuthBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -133,18 +127,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				openPrivacyDialog();
 				break;
 			}
-			case R.id.btn_permission_dialog_dev_switch: {
-				toggleDialogDevSwitch();
-				break;
-			}
-			case R.id.btn_permission_dialog_dev_style: {
-				toggleDialogDevStyle();
-				break;
-			}
-			case R.id.btn_permission_dialog_sdk_content: {
-				toggleDialogSdkContent();
-				break;
-			}
 			case R.id.btn_permission_dialog: {
 				openResubmitDialog();
 				break;
@@ -155,6 +137,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			}
 			case R.id.btn_isMob: {
 				invokeIsMob();
+				break;
+			}
+			case R.id.btn_isAuth: {
+				invokeIsAuth();
+				break;
+			}
+			case R.id.btn_loop_isAuth: {
+				loopRequestIsAuth();
 				break;
 			}
 		}
@@ -208,12 +198,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		isForbBtn.setOnClickListener(this);
 		isMobBtn = findViewById(R.id.btn_isMob);
 		isMobBtn.setOnClickListener(this);
-		toggleDialogDevSwitchBtn = findViewById(R.id.btn_permission_dialog_dev_switch);
-		toggleDialogDevSwitchBtn.setOnClickListener(this);
-		toggleDialogDevStyleBtn = findViewById(R.id.btn_permission_dialog_dev_style);
-		toggleDialogDevStyleBtn.setOnClickListener(this);
-		toggleDialogSdkContentBtn = findViewById(R.id.btn_permission_dialog_sdk_content);
-		toggleDialogSdkContentBtn.setOnClickListener(this);
+		loopRequestIsAuthBtn = findViewById(R.id.btn_loop_isAuth);
+		loopRequestIsAuthBtn.setOnClickListener(this);
+		isAuthBtn = findViewById(R.id.btn_isAuth);
+		isAuthBtn.setOnClickListener(this);
 		openPermissionBtn = findViewById(R.id.btn_permission_dialog);
 		openPermissionBtn.setOnClickListener(this);
 	}
@@ -280,8 +268,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private void testMobCommon() {
 		// 模拟sdk接口调用isForb()
 		invokeIsForb();
-		// 设置二次确认框默认内容
-		toggleDialogSdkContent();
 		// 模拟sdk接口生成duid()（但其实没必要，sdk最先调用的肯定是isForb接口，其内部已经有锁控制了）
 		new Thread(new Runnable() {
 			@Override
@@ -316,87 +302,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		dialog.show();
 	}
 
-	private void toggleDialogDevSwitch() {
-		dialogDevSwitch = !dialogDevSwitch;
-		// 开发者设置是否允许弹出二次确认框(默认true)
-		// 需在使用SDK接口前调用，否则不生效
-		MobSDK.setAllowDialog(dialogDevSwitch);
-		Toast.makeText(this, "开发者开关已打开：" + dialogDevSwitch, Toast.LENGTH_SHORT).show();
-	}
-
-	private void toggleDialogDevStyle() {
-		MobPolicyUi.Builder mobPolicyUi = new MobPolicyUi.Builder();
-		dialogDevStyleDefault = !dialogDevStyleDefault;
-		if (dialogDevStyleDefault) {
-			// 开发者自定义弹窗样式（默认）
-			mobPolicyUi
-					.setBackgroundColorId(123)
-					.setPositiveBtnColorId(R.color.smssdk_common_main_color)
-					.setNegativeBtnColorId(R.color.smssdk_common_white);
-		} else {
-			// 开发者自定义弹窗样式（自定义）
-			mobPolicyUi
-					// 注意：颜色资源ID与颜色值同时设置时，颜色资源ID生效
-//					.setBackgroundColorId(R.color.smssdk_test_color)
-//					.setPositiveBtnColorId(R.color.smssdk_common_text_gray)
-//					.setNegativeBtnColorId(R.color.smssdk_common_main_color)
-					.setBackgroundColorStr("#00D69C")
-					.setPositiveBtnColorStr("#FF6600")
-					.setNegativeBtnColorStr("#FF4081");
-		}
-		Toast.makeText(this, "使用默认样式：" + dialogDevStyleDefault, Toast.LENGTH_SHORT).show();
-		// 需在使用SDK接口前调用，否则不生效
-		MobSDK.setPolicyUi(mobPolicyUi.build());
-	}
-
-	private void toggleDialogSdkContent() {
-		// 根据系统语言环境组装对应的Content
-		dialogSdkContentDefault = !dialogSdkContentDefault;
-		Toast.makeText(this, "使用默认内容：" + dialogSdkContentDefault, Toast.LENGTH_SHORT).show();
-	}
-
-	private InternalPolicyUi genInternalPolicyUi() {
-		String policyUrlContent = null;
-		if (policyUrl != null) {
-			policyUrlContent = policyUrl.getContent();
-		}
-		InternalPolicyUi.Builder internalPolicyUiBuilder = new InternalPolicyUi.Builder();
-		// 使用默认值
-		if (dialogSdkContentDefault) {
-			String contentP1 = DemoResHelper.getString(DemoResHelper.getStringRes(
-					MainActivity.this, "mobdemo_authorize_dialog_content_p1"));
-			String contentP2 = DemoResHelper.getString(DemoResHelper.getStringRes(
-					MainActivity.this, "mobdemo_authorize_dialog_content_p2"));
-			String content = contentP1 + " <a href=\"" + policyUrlContent + "\">" + policyUrlContent + "</a> " + contentP2;
-
-			internalPolicyUiBuilder
-					.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
-							MainActivity.this, "mobdemo_authorize_dialog_title")))
-					.setContentText(content)
-					.setPositiveBtnText(DemoResHelper.getString(DemoResHelper.getStringRes(
-							MainActivity.this, "mobdemo_authorize_dialog_accept_btn_text")))
-					.setNegativeBtnText(DemoResHelper.getString(DemoResHelper.getStringRes(
-							MainActivity.this, "mobdemo_authorize_dialog_reject_btn_text")));
-		} else {
-			// 使用自定义值
-			String content2P1 = DemoResHelper.getString(DemoResHelper.getStringRes(
-					MainActivity.this, "mobdemo_authorize_dialog_content2_p1"));
-			String content2P2 = DemoResHelper.getString(DemoResHelper.getStringRes(
-					MainActivity.this, "mobdemo_authorize_dialog_content2_p2"));
-			String content2 = content2P1 + " <a href=\"" + policyUrlContent + "\">" + policyUrlContent + "</a> " + content2P2;
-
-			internalPolicyUiBuilder
-					.setTitleText(DemoResHelper.getString(DemoResHelper.getStringRes(
-							MainActivity.this, "mobdemo_authorize_dialog_title2")))
-					.setContentText(content2)
-					.setPositiveBtnText(DemoResHelper.getString(DemoResHelper.getStringRes(
-							MainActivity.this, "mobdemo_authorize_dialog_accept_btn_text2")))
-					.setNegativeBtnText(DemoResHelper.getString(DemoResHelper.getStringRes(
-							MainActivity.this, "mobdemo_authorize_dialog_reject_btn_text2")));
-		}
-		return internalPolicyUiBuilder.build();
-	}
-
 	private void openResubmitDialog() {
 		new Thread(new Runnable() {
 			@Override
@@ -404,14 +309,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				boolean isForb = MobSDK.isForb();
 				Log.d(TAG, "isForb: " + isForb);
 				if (!isForb) {
-
-					// 设置二次确认框的必要资源文件
-					RHolder.getInstance()
-							.setActivityThemeId(DemoResHelper.getStyleRes(MainActivity.this, "mobcommon_TranslucentTheme"))
-							.setDialogThemeId(DemoResHelper.getStyleRes(MainActivity.this, "mobcommon_DialogStyle"))
-							.setDialogLayoutId(DemoResHelper.getLayoutRes(MainActivity.this, "mob_authorize_dialog"));
 					// 设置二次确认框的开发者自定义UI元素
-					InternalPolicyUi internalPolicyUi = genInternalPolicyUi();
+					InternalPolicyUi internalPolicyUi = new InternalPolicyUi.Builder().build();
 					MobSDK.canIContinueBusiness(new COMMON(), internalPolicyUi, new OperationCallback<Boolean>() {
 						@Override
 						public void onComplete(final Boolean data) {
@@ -485,6 +384,76 @@ public class MainActivity extends Activity implements View.OnClickListener {
 						return false;
 					}
 				});
+			}
+		}).start();
+	}
+
+	private int invokeIsAuth() {
+		int isAuth = MobSDK.isAuth();
+		Log.d(TAG, "Got isAuth: " + isAuth);
+		String msg;
+		switch (isAuth) {
+			case 2: {
+				msg = "2:不走隐私合规";
+				break;
+			}
+			case 1: {
+				msg = "1:已同意隐私";
+				break;
+			}
+			case 0: {
+				msg = "0:授权状态未知";
+				break;
+			}
+			default: {
+				msg = "-1:不同意隐私";
+				break;
+			}
+		}
+		Toast.makeText(MainActivity.this, "isAuth：" + msg, Toast.LENGTH_SHORT).show();
+		return isAuth;
+	}
+
+	private void loopRequestIsAuth() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Looper.prepare();
+				boolean isForb = MobSDK.isForb();
+				Log.d(TAG, "isForb: " + isForb);
+				if (!isForb) {
+					final Handler handler = new Handler(Looper.myLooper());
+					Runnable task = new Runnable() {
+						@Override
+						public void run() {
+							int isAuth = invokeIsAuth();
+							switch (isAuth) {
+								case 2: {
+									// 2:不走隐私合规
+								}
+								case 1: {
+									// 1:已同意隐私
+									onContinue();
+									handler.removeCallbacks(this);
+									break;
+								}
+								case 0: {
+									// 0:授权状态未知
+									handler.postDelayed(this, 3000);
+									break;
+								}
+								default: {
+									// -1:不同意隐私
+									onDisturb();
+									handler.removeCallbacks(this);
+									break;
+								}
+							}
+						}
+					};
+					handler.post(task);
+				}
+				Looper.loop();
 			}
 		}).start();
 	}

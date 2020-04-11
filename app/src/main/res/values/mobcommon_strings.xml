@@ -1,7 +1,0 @@
-<resources>
-	<!-- 隐私二次确认框 -->
-	<string name="mobcommon_authorize_dialog_title">Terms of Use</string>
-	<string name="mobcommon_authorize_dialog_content"><![CDATA[In order to provide you with Mobservice, please check our service policy. For details, please click <a href="http://www.mob.com/about/policy">http://www.mob.com/about/policy</a>. If you agree with our service policy, please click "accept", if you do not agree with our service policy, please click "reject"]]></string>
-	<string name="mobcommon_authorize_dialog_reject">Reject</string>
-	<string name="mobcommon_authorize_dialog_accept">Accept</string>
-</resources>
