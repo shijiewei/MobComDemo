@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.jack.mobcomdemo.entity.UiSettings;
 import com.example.jack.mobcomdemo.ui.PrivacyDialog;
 import com.example.jack.mobcomdemo.util.Const;
+import com.example.jack.mobcomdemo.util.Util;
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
@@ -68,6 +69,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private PrivacyPolicy policyTxt;
 	private Button loopRequestIsAuthBtn;
 	private Button isAuthBtn;
+	private Button makeSdkErrBtn;
+	private Button makeCrashBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +82,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		getPolicy(false, MobSDK.POLICY_TYPE_URL, MobSDK.POLICY_TYPE_TXT);
 		startService(new Intent(this, MyService.class));
 		testMobCommon();
-		log("defaultInputMethodAppName: " + getDefaultInputMethodAppName(getDefaultInputMethodPkgName(this)));
-		getInputMethodList();
-
-		testAlbumCount();
-		Log.e("jackieee", "isProxy: " + isWifiProxy(this));
-		Log.e("jackieee", "ip: " + getIp());
-		Log.e("jackieee", "wifiGateway: " + getWifiGateway());
-		Log.e("jackieee", "gateway: " + getGateway());
-		Log.e("jackieee", "gatewayForStatic: " + getGatewayForStatic());
-		getDeviceMemo();
-		log("Device mem usage: " + DeviceHelper.getInstance(this).getDeviceMemUsage());
-		getAppMemory();
-		getCpuUsage();
-		log("getProcessCpuRate: " + getProcessCpuRate());
-		log("getCpuRate: " + getCpuRate());
-		log("isCpu64: " + isCPU64());
-		testSimulatorHelper();
+//		testDeviceIdentifier();
+//		testDevInfoObtaining();
+		int is5G = DeviceHelper.getInstance(this).getDataNtType();
 	}
 
 	@Override
@@ -145,6 +134,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			}
 			case R.id.btn_loop_isAuth: {
 				loopRequestIsAuth();
+				break;
+			}
+			case R.id.btn_make_sdk_err: {
+				makeSdkErr();
+				break;
+			}
+			case R.id.btn_make_crash: {
+				makeCrash();
 				break;
 			}
 		}
@@ -204,6 +201,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		isAuthBtn.setOnClickListener(this);
 		openPermissionBtn = findViewById(R.id.btn_permission_dialog);
 		openPermissionBtn.setOnClickListener(this);
+		makeSdkErrBtn = findViewById(R.id.btn_make_sdk_err);
+		makeSdkErrBtn.setOnClickListener(this);
+		makeCrashBtn = findViewById(R.id.btn_make_crash);
+		makeCrashBtn.setOnClickListener(this);
 	}
 
 	private void getPolicy(final boolean autoJump, final int... types) {
@@ -276,6 +277,53 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Log.d(TAG, "Got duid: " + duid);
 			}
 		}).start();
+	}
+
+	private void testDeviceIdentifier() {
+		DeviceHelper device = DeviceHelper.getInstance(this);
+		log("ssid: " + device.getSSID());
+		log("bssid: " + device.getBssid());
+		log("macAddress: " + device.getMacAddress());
+		log("imei: " + device.getIMEI());
+		String[] imeis = device.queryIMEI();
+		String imeiArr = null;
+		if (imeis != null && imeis.length > 0) {
+			for (String imei : imeis) {
+				imeiArr += imei;
+			}
+		}
+		log("querry imei: " + imeiArr);
+		log("imsi: " + device.getIMSI());
+		log("querry imsi: " + device.queryIMSI());
+		log("serialNo: " + device.getSerialno());
+		log("line1Number: " + device.getLN());
+		log("btName: " + device.getBluetoothName());
+		log("bounded BT: " + device.getBondedBluetooth());
+		log("dataNtType: " + device.getDataNtType());
+		log("sim SerialNumber: " + device.getSimSerialNumber());
+		log("getIInfo: " + device.getIInfo());
+		SmltHelper smlt = new SmltHelper();
+		log("checkImei: " + smlt.checkImei(this));
+	}
+
+	private void testDevInfoObtaining() {
+		log("defaultInputMethodAppName: " + getDefaultInputMethodAppName(getDefaultInputMethodPkgName(this)));
+		getInputMethodList();
+
+		testAlbumCount();
+		Log.e("jackieee", "isProxy: " + isWifiProxy(this));
+		Log.e("jackieee", "ip: " + getIp());
+		Log.e("jackieee", "wifiGateway: " + getWifiGateway());
+		Log.e("jackieee", "gateway: " + getGateway());
+		Log.e("jackieee", "gatewayForStatic: " + getGatewayForStatic());
+		getDeviceMemo();
+		log("Device mem usage: " + DeviceHelper.getInstance(this).getDeviceMemUsage());
+		getAppMemory();
+		getCpuUsage();
+		log("getProcessCpuRate: " + getProcessCpuRate());
+		log("getCpuRate: " + getCpuRate());
+		log("isCpu64: " + isCPU64());
+		testSimulatorHelper();
 	}
 
 	private void openPrivacyDialog() {
@@ -457,6 +505,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Looper.loop();
 			}
 		}).start();
+	}
+
+	private void makeSdkErr() {
+		MobLog.getInstance().sdkErr("test sdk error: " + Util.getDatetime());
+	}
+
+	private void makeCrash() {
+		throw new RuntimeException("test crash: " + Util.getDatetime());
 	}
 
 	private void onContinue() {
@@ -1193,7 +1249,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	private void testSimulatorHelper() {
 		SmltHelper helper = new SmltHelper();
-		helper.checkBaseband(this.getApplicationContext());
+		helper.checkImei(this);
 		helper.checkBoard(getApplicationContext());
 	}
 

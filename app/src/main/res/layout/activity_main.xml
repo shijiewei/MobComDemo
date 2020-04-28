@@ -50,4 +50,14 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="轮询isAuth()接口"/>
+	<Button
+		android:id="@+id/btn_make_sdk_err"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="模拟产生SDK错误"/>
+	<Button
+		android:id="@+id/btn_make_crash"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="模拟产生Crash"/>
 </LinearLayout>
