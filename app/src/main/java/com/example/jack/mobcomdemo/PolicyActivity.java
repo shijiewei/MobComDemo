@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class PolicyActivity extends Activity {
 	private void initView() {
 		titleTv = findViewById(R.id.page_policy_title_tv);
 		policyTv = findViewById(R.id.page_policy_tv);
+		policyTv.setMovementMethod(LinkMovementMethod.getInstance());
 		policyContainerSv = findViewById(R.id.page_policy_container_sv);
 		policyWv = findViewById(R.id.page_policy_wv);
 	}

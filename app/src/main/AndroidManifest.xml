@@ -56,9 +56,9 @@
 <!--		<meta-data-->
 <!--			android:name="Mob-V6"-->
 <!--			android:value="true"/>-->
-		<meta-data
-			android:name="Mob-PpNecessary"
-			android:value="true"/>
+<!--		<meta-data-->
+<!--			android:name="Mob-PpNecessary"-->
+<!--			android:value="true"/>-->
 
 		<service
 			android:name="com.example.jack.mobcomdemo.MyService"
