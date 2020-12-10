@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.mob.commons.COMMON;
 import com.mob.commons.authorize.DeviceAuthorizer;
 import com.mob.commons.dialog.entity.InternalPolicyUi;
 import com.mob.tools.MobLog;
+import com.mob.tools.utils.Data;
 import com.mob.tools.utils.DeviceHelper;
 import com.mob.tools.utils.Strings;
 import com.mob.tools.utils.UIHandler;
@@ -38,6 +40,7 @@ import java.util.Locale;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 	private static final String TAG = MainActivity.class.getSimpleName();
+	private DeviceHelper device;
 	private Button btn1;
 	private Button policyTv;
 	private Button policyWb;
@@ -51,12 +54,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Button isAuthBtn;
 	private Button makeSdkErrBtn;
 	private Button makeCrashBtn;
+	private Button deviceKeyBtn;
 
 	@SuppressLint("MissingPermission")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		device = DeviceHelper.getInstance(this);
 
 		checkPermissions();
 		initView();
@@ -122,6 +128,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				makeCrash();
 				break;
 			}
+			case R.id.btn_get_device_key: {
+				getDeviceKey();
+				break;
+			}
 		}
 	}
 
@@ -183,6 +193,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		makeSdkErrBtn.setOnClickListener(this);
 		makeCrashBtn = findViewById(R.id.btn_make_crash);
 		makeCrashBtn.setOnClickListener(this);
+		deviceKeyBtn = findViewById(R.id.btn_get_device_key);
+		deviceKeyBtn.setOnClickListener(this);
 	}
 
 	private void getPolicy(final boolean autoJump, final int... types) {
@@ -251,8 +263,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				String duid = DeviceAuthorizer.authorize(new COMMON());
-				Log.d(TAG, "Got duid: " + duid);
+//				String duid = DeviceAuthorizer.authorize(new COMMON());
+//				Log.d(TAG, "Got duid: " + duid);
 			}
 		}).start();
 	}
@@ -439,6 +451,36 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		throw new RuntimeException("test crash: " + Util.getDatetime());
 	}
 
+	private void getDeviceKey() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String adid = null;
+				String adidHash = null;
+				String deviceKey = null;
+				try {
+					adid = device.getAdvertisingID();
+					if (!TextUtils.isEmpty(adid)) {
+						byte[] bytes = Data.SHA1(adid);
+						adidHash = Data.byteToHex(bytes);
+					}
+					deviceKey = device.getDeviceKey();
+				} catch (Throwable throwable) {
+					throwable.printStackTrace();
+				}
+				final String msg = "adid: " + adid + "\nadidHash: " + adidHash + "\ndeviceKey: " + deviceKey;
+				Log.d(TAG, msg);
+				UIHandler.sendEmptyMessage(0, new Handler.Callback() {
+					@Override
+					public boolean handleMessage(Message message) {
+						Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+						return false;
+					}
+				});
+			}
+		}).start();
+	}
+
 	private void onContinue() {
 		UIHandler.sendEmptyMessage(0, new Handler.Callback() {
 			@Override
@@ -467,7 +509,32 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	 * 临时的测试代码可以放在这里
 	 */
 	private void tempTestHere() {
-
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				DeviceHelper device = DeviceHelper.getInstance(MainActivity.this);
+//				for (int i = 0; i < 5; i++) {
+//					String bn = device.getBluetoothName();
+//					Log.e("jackieee", "bn: " + bn);
+//					String btmac = device.getBTMac();
+//					Log.e("jackieee", "btmac: " + btmac);
+//					try {
+//						Thread.sleep(500);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//				}
+				try {
+					String adid = device.getAdvertisingIDByGms();
+					String adid2 = device.getAdvertisingID();
+					String s = device.getScreenSize();
+					Log.e("jackieee", "adid: " + adid);
+					Log.e("jackieee", "adid2: " + adid2);
+				} catch (Throwable throwable) {
+					throwable.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	private void testDeviceHelper() {

@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.mob.sdk'
+apply plugin: 'com.mob.sdk'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.jack.mobcomdemo"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -29,7 +29,7 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -39,15 +39,22 @@ android {
     }
 }
 
-//MobSDK {
-////    公共库测试appkey，带有默认开启的唤星
-//    appKey "fe0614078730"
-//    appSecret "51215bd55b319a54023c1ecd23647323"
-//
-//    MobPush {
-//
-//    }
-//}
+MobSDK {
+//    公共库测试appkey，带有默认开启的唤星
+    appKey "moba6b6c6d6"
+    appSecret "0da6fae9f10701ca5c26c4270c07c221"
+
+    MobPush {
+
+    }
+}
+
+configurations.all {
+//    exclude group: 'com.mob', module: 'MobApm'
+    exclude group: 'com.mob', module: 'MobCommons'
+    exclude group: 'com.mob', module: 'MobTools'
+    exclude group: 'com.mob', module: 'MobGUI'
+}
 
 dependencies {
     if ("locallib".equals(getProperty("repo"))) {

@@ -46,7 +46,7 @@
 
 		<meta-data
 			android:name="Mob-AppKey"
-			android:value="2d9f9f30a86a8"/>
+			android:value="moba6b6c6d6"/>
 		<meta-data
 			android:name="Mob-AppSecret"
 			android:value="0da6fae9f10701ca5c26c4270c07c221"/>
@@ -77,6 +77,10 @@
 <!--			android:grantUriPermissions="true"-->
 <!--			android:exported="false">-->
 <!--		</provider>-->
+		<!-- DeviceHelper.getAdvertisingIDByGms()依赖此配置 -->
+		<meta-data
+			android:name="com.google.android.gms.ads.APPLICATION_ID"
+			android:value="ca-app-pub-5473965538719042~6464893897"/>
 	</application>
 
 </manifest>
