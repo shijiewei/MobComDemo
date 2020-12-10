@@ -21,11 +21,11 @@ import com.example.jack.mobcomdemo.ui.PrivacyDialog;
 import com.example.jack.mobcomdemo.util.Const;
 import com.example.jack.mobcomdemo.util.Util;
 import com.mob.MobSDK;
-import com.mob.OperationCallback;
+//import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
 import com.mob.commons.COMMON;
 import com.mob.commons.authorize.DeviceAuthorizer;
-import com.mob.commons.dialog.entity.InternalPolicyUi;
+//import com.mob.commons.dialog.entity.InternalPolicyUi;
 import com.mob.tools.MobLog;
 import com.mob.tools.utils.Data;
 import com.mob.tools.utils.DeviceHelper;
@@ -205,41 +205,41 @@ public class MainActivity extends Activity implements View.OnClickListener {
 					public void run() {
 						// 指定隐私协议语言类型，为空或不指定时，默认根据系统语言选择
 						Locale locale = getResources().getConfiguration().locale;
-						policyUrl = MobSDK.getPrivacyPolicy(MobSDK.POLICY_TYPE_URL, locale);
-						if (policyUrl != null) {
-							if (autoJump) {
-								gotoPolicyActivity(MobSDK.POLICY_TYPE_URL);
-							}
-						} else {
-							UIHandler.sendEmptyMessage(0, new Handler.Callback() {
-								@Override
-								public boolean handleMessage(Message msg) {
-									Toast.makeText(MainActivity.this,
-											"type: url" + "\nCan not get privacy policy", Toast.LENGTH_SHORT).show();
-									return false;
-								}
-							});
-						}
+//						policyUrl = MobSDK.getPrivacyPolicy(MobSDK.POLICY_TYPE_URL, locale);
+//						if (policyUrl != null) {
+//							if (autoJump) {
+//								gotoPolicyActivity(MobSDK.POLICY_TYPE_URL);
+//							}
+//						} else {
+//							UIHandler.sendEmptyMessage(0, new Handler.Callback() {
+//								@Override
+//								public boolean handleMessage(Message msg) {
+//									Toast.makeText(MainActivity.this,
+//											"type: url" + "\nCan not get privacy policy", Toast.LENGTH_SHORT).show();
+//									return false;
+//								}
+//							});
+//						}
 					}
 				}).start();
 			} else if (type == MobSDK.POLICY_TYPE_TXT) {
 				// 指定隐私协议语言类型，为空或不指定时，默认根据系统语言选择
 				Locale locale = getResources().getConfiguration().locale;
-				MobSDK.getPrivacyPolicyAsync(MobSDK.POLICY_TYPE_TXT, locale, new PrivacyPolicy.OnPolicyListener() {
-					@Override
-					public void onComplete(PrivacyPolicy data) {
-						policyTxt = data;
-						if (autoJump) {
-							gotoPolicyActivity(MobSDK.POLICY_TYPE_TXT);
-						}
-					}
-
-					@Override
-					public void onFailure(Throwable t) {
-						Toast.makeText(MainActivity.this,
-								"type: txt" + "\n" + t.getMessage(), Toast.LENGTH_SHORT).show();
-					}
-				});
+//				MobSDK.getPrivacyPolicyAsync(MobSDK.POLICY_TYPE_TXT, locale, new PrivacyPolicy.OnPolicyListener() {
+//					@Override
+//					public void onComplete(PrivacyPolicy data) {
+//						policyTxt = data;
+//						if (autoJump) {
+//							gotoPolicyActivity(MobSDK.POLICY_TYPE_TXT);
+//						}
+//					}
+//
+//					@Override
+//					public void onFailure(Throwable t) {
+//						Toast.makeText(MainActivity.this,
+//								"type: txt" + "\n" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//					}
+//				});
 			}
 		}
 	}
@@ -298,45 +298,45 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				boolean isForb = MobSDK.isForb();
-				Log.d(TAG, "isForb: " + isForb);
-				if (!isForb) {
-					// 设置二次确认框的开发者自定义UI元素
-					InternalPolicyUi internalPolicyUi = new InternalPolicyUi.Builder().build();
-					MobSDK.canIContinueBusiness(new COMMON(), internalPolicyUi, new OperationCallback<Boolean>() {
-						@Override
-						public void onComplete(final Boolean data) {
-							Log.d(TAG, "canIContinueBusiness: onComplete(), " + data);
-							if (data) {
-								onContinue();
-							} else {
-								onDisturb();
-							}
-						}
-
-						@Override
-						public void onFailure(Throwable t) {
-							Log.d(TAG, "canIContinueBusiness: onFailure()", t);
-							onDisturb();
-						}
-					});
-				}
+//				boolean isForb = MobSDK.isForb();
+//				Log.d(TAG, "isForb: " + isForb);
+//				if (!isForb) {
+//					// 设置二次确认框的开发者自定义UI元素
+//					InternalPolicyUi internalPolicyUi = new InternalPolicyUi.Builder().build();
+//					MobSDK.canIContinueBusiness(new COMMON(), internalPolicyUi, new OperationCallback<Boolean>() {
+//						@Override
+//						public void onComplete(final Boolean data) {
+//							Log.d(TAG, "canIContinueBusiness: onComplete(), " + data);
+//							if (data) {
+//								onContinue();
+//							} else {
+//								onDisturb();
+//							}
+//						}
+//
+//						@Override
+//						public void onFailure(Throwable t) {
+//							Log.d(TAG, "canIContinueBusiness: onFailure()", t);
+//							onDisturb();
+//						}
+//					});
+//				}
 			}
 		}).start();
 	}
 
 	private void submitPrivacyGrantResult(boolean granted) {
-		MobSDK.submitPolicyGrantResult(granted, new OperationCallback<Void>() {
-			@Override
-			public void onComplete(Void data) {
-				Log.d(TAG, "隐私协议授权结果提交：成功");
-			}
-
-			@Override
-			public void onFailure(Throwable t) {
-				Log.d(TAG, "隐私协议授权结果提交：失败");
-			}
-		});
+//		MobSDK.submitPolicyGrantResult(granted, new OperationCallback<Void>() {
+//			@Override
+//			public void onComplete(Void data) {
+//				Log.d(TAG, "隐私协议授权结果提交：成功");
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable t) {
+//				Log.d(TAG, "隐私协议授权结果提交：失败");
+//			}
+//		});
 	}
 
 	private void invokeIsForb() {
@@ -374,7 +374,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	private int invokeIsAuth() {
-		int isAuth = MobSDK.isAuth();
+		int isAuth = 2;
 		Log.d(TAG, "Got isAuth: " + isAuth);
 		String msg;
 		switch (isAuth) {
@@ -444,7 +444,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void makeSdkErr() {
-		MobLog.getInstance().sdkErr("test sdk error: " + Util.getDatetime());
+//		MobLog.getInstance().sdkErr("test sdk error: " + Util.getDatetime());
 	}
 
 	private void makeCrash() {
@@ -525,11 +525,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //					}
 //				}
 				try {
-					String adid = device.getAdvertisingIDByGms();
-					String adid2 = device.getAdvertisingID();
-					String s = device.getScreenSize();
-					Log.e("jackieee", "adid: " + adid);
-					Log.e("jackieee", "adid2: " + adid2);
+//					String adid = device.getAdvertisingIDByGms();
+//					String adid2 = device.getAdvertisingID();
+//					String s = device.getScreenSize();
+//					Log.e("jackieee", "adid: " + adid);
+//					Log.e("jackieee", "adid2: " + adid2);
 				} catch (Throwable throwable) {
 					throwable.printStackTrace();
 				}
