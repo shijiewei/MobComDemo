@@ -512,27 +512,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				DeviceHelper device = DeviceHelper.getInstance(MainActivity.this);
-//				for (int i = 0; i < 5; i++) {
-//					String bn = device.getBluetoothName();
-//					Log.e("jackieee", "bn: " + bn);
-//					String btmac = device.getBTMac();
-//					Log.e("jackieee", "btmac: " + btmac);
-//					try {
-//						Thread.sleep(500);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//				}
-				try {
-					String adid = device.getAdvertisingIDByGms();
-					String adid2 = device.getAdvertisingID();
-					String s = device.getScreenSize();
-					Log.e("jackieee", "adid: " + adid);
-					Log.e("jackieee", "adid2: " + adid2);
-				} catch (Throwable throwable) {
-					throwable.printStackTrace();
-				}
 			}
 		}).start();
 	}
