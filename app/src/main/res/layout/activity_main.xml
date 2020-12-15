@@ -2,77 +2,193 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:gravity="center"
+	android:padding="20dp"
+	android:gravity="center_horizontal"
 	android:orientation="vertical">
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="公共库测试Demo"
+		android:layout_marginBottom="20dp"
+		android:textSize="18dp"/>
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:scrollbars="none">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn1"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="test" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_policy_txt"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="查看隐私策略（富文本/异步）" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_policy_url"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="查看隐私策略（URL/同步）" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_privacy_dialog"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="打开隐私协议弹框" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_permission_dialog"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="打开隐私二次确认框（废弃）" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_isforb"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="调用isForb()接口" />
 
-	<Button
-		android:id="@+id/btn1"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="test" />
+				<Button
+					android:id="@+id/btn_isMob"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="调用isMob()接口" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_isAuth"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="调用isAuth()接口" />
 
-	<Button
-		android:id="@+id/btn_policy_txt"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="查看隐私策略（富文本/异步）" />
+				<Button
+					android:id="@+id/btn_loop_isAuth"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="轮询isAuth()接口" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_make_sdk_err"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="模拟产生SDK错误" />
 
-	<Button
-		android:id="@+id/btn_policy_url"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="查看隐私策略（URL/同步）" />
-
-	<Button
-		android:id="@+id/btn_privacy_dialog"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="打开隐私协议弹框" />
-
-	<Button
-		android:id="@+id/btn_permission_dialog"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="打开隐私二次确认框（废弃）" />
-
-	<Button
-		android:id="@+id/btn_isforb"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="调用isForb()接口" />
-
-	<Button
-		android:id="@+id/btn_isMob"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="调用isMob()接口" />
-
-	<Button
-		android:id="@+id/btn_isAuth"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="调用isAuth()接口" />
-
-	<Button
-		android:id="@+id/btn_loop_isAuth"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="轮询isAuth()接口" />
-
-	<Button
-		android:id="@+id/btn_make_sdk_err"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="模拟产生SDK错误" />
-
-	<Button
-		android:id="@+id/btn_make_crash"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="模拟产生Crash" />
-	<Button
-		android:id="@+id/btn_get_device_key"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="获取DeviceKey（仅适用GP专版）" />
+				<Button
+					android:id="@+id/btn_make_crash"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="模拟产生Crash" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_get_device_key"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="获取DeviceKey（仅GP专版）" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_is_gp_available"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="设备上是否有可用的GP框架（仅GP专版）" />
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button
+					android:id="@+id/btn_is_gp_ver"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="是否GP专版" />
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
 </LinearLayout>

@@ -55,6 +55,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Button makeSdkErrBtn;
 	private Button makeCrashBtn;
 	private Button deviceKeyBtn;
+	private Button isGpVerBtn;
+	private Button isGpAvailableBtn;
 
 	@SuppressLint("MissingPermission")
 	@Override
@@ -132,6 +134,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				getDeviceKey();
 				break;
 			}
+			case R.id.btn_is_gp_ver: {
+				isGppVer();
+				break;
+			}
+			case R.id.btn_is_gp_available: {
+				isGpAvailable();
+				break;
+			}
 		}
 	}
 
@@ -195,6 +205,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		makeCrashBtn.setOnClickListener(this);
 		deviceKeyBtn = findViewById(R.id.btn_get_device_key);
 		deviceKeyBtn.setOnClickListener(this);
+		isGpVerBtn = findViewById(R.id.btn_is_gp_ver);
+		isGpVerBtn.setOnClickListener(this);
+		isGpAvailableBtn = findViewById(R.id.btn_is_gp_available);
+		isGpAvailableBtn.setOnClickListener(this);
 	}
 
 	private void getPolicy(final boolean autoJump, final int... types) {
@@ -479,6 +493,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				});
 			}
 		}).start();
+	}
+
+	private void isGppVer() {
+		boolean val = MobSDK.isGppVer();
+		Toast.makeText(this, "isGppVer: " + val, Toast.LENGTH_SHORT).show();
+	}
+
+	private void isGpAvailable() {
+		Boolean val = MobSDK.isGpAvailable();
+		String msg = val == null ? "未知" : String.valueOf(val.booleanValue());
+		Toast.makeText(this, "isGpAvailable: " + msg, Toast.LENGTH_SHORT).show();
 	}
 
 	private void onContinue() {
