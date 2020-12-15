@@ -496,16 +496,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		}).start();
 	}
 
-	private void isGppVer() {
+	/**
+	 * 判断公共库是否GP版本
+	 * 使用注意：
+	 * 1. 必须使用反射调用，防止"新版本SDK+老公共库"情况下（定制版公共库通常更新较慢），发生crash
+	 */
+	private boolean isGppVer() {
+		boolean isGppVer = false;
 		try {
 			String mobSDKClass = ReflectHelper.importClass("com.mob.MobSDK");
-			boolean val = ReflectHelper.invokeStaticMethod(mobSDKClass, "isGppVer");
-			Toast.makeText(this, "isGppVer: " + val, Toast.LENGTH_SHORT).show();
+			isGppVer = ReflectHelper.invokeStaticMethod(mobSDKClass, "isGppVer");
+			Toast.makeText(this, "isGppVer: " + isGppVer, Toast.LENGTH_SHORT).show();
 			Log.d(TAG, ">>>>> Has isGppVer <<<<<");
 		} catch (Throwable t) {
 			Toast.makeText(this, "Method [isGppVer] not found", Toast.LENGTH_SHORT).show();
 			Log.d(TAG, ">>>>> No isGppVer <<<<<");
 		}
+		return isGppVer;
 	}
 
 	private void isGpAvailable() {
