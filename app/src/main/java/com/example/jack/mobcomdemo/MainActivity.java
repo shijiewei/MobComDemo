@@ -29,6 +29,7 @@ import com.mob.commons.dialog.entity.InternalPolicyUi;
 import com.mob.tools.MobLog;
 import com.mob.tools.utils.Data;
 import com.mob.tools.utils.DeviceHelper;
+import com.mob.tools.utils.ReflectHelper;
 import com.mob.tools.utils.Strings;
 import com.mob.tools.utils.UIHandler;
 
@@ -496,14 +497,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void isGppVer() {
-		boolean val = MobSDK.isGppVer();
-		Toast.makeText(this, "isGppVer: " + val, Toast.LENGTH_SHORT).show();
+		try {
+			String mobSDKClass = ReflectHelper.importClass("com.mob.MobSDK");
+			boolean val = ReflectHelper.invokeStaticMethod(mobSDKClass, "isGppVer");
+			Toast.makeText(this, "isGppVer: " + val, Toast.LENGTH_SHORT).show();
+			Log.d(TAG, ">>>>> Has isGppVer <<<<<");
+		} catch (Throwable t) {
+			Toast.makeText(this, "Method [isGppVer] not found", Toast.LENGTH_SHORT).show();
+			Log.d(TAG, ">>>>> No isGppVer <<<<<");
+		}
 	}
 
 	private void isGpAvailable() {
-		Boolean val = MobSDK.isGpAvailable();
-		String msg = val == null ? "未知" : String.valueOf(val.booleanValue());
-		Toast.makeText(this, "isGpAvailable: " + msg, Toast.LENGTH_SHORT).show();
+		try {
+			String mobSDKClass = ReflectHelper.importClass("com.mob.MobSDK");
+			Boolean val = ReflectHelper.invokeStaticMethod(mobSDKClass, "isGpAvailable");
+			String msg = val == null ? "未知" : String.valueOf(val.booleanValue());
+			Toast.makeText(this, "isGpAvailable: " + msg, Toast.LENGTH_SHORT).show();
+			Log.d(TAG, ">>>>> Has isGpAvailable <<<<<");
+		} catch (Throwable t) {
+			Toast.makeText(this, "Method [isGpAvailable] not found", Toast.LENGTH_SHORT).show();
+			Log.d(TAG, ">>>>> No isGpAvailable <<<<<");
+		}
 	}
 
 	private void onContinue() {
