@@ -2,6 +2,7 @@ package com.example.jack.mobcomdemo;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import com.example.jack.mobcomdemo.entity.UiSettings;
 import com.example.jack.mobcomdemo.ui.PrivacyDialog;
 import com.example.jack.mobcomdemo.util.Const;
 import com.example.jack.mobcomdemo.util.Util;
+import com.mdc.at.nbact.NbAct;
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
@@ -143,6 +145,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				isGpAvailable();
 				break;
 			}
+			case R.id.btn_test_mdc_nbAct: {
+				invokeNbAct();
+			}
 		}
 	}
 
@@ -210,6 +215,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		isGpVerBtn.setOnClickListener(this);
 		isGpAvailableBtn = findViewById(R.id.btn_is_gp_available);
 		isGpAvailableBtn.setOnClickListener(this);
+		findViewById(R.id.btn_test_mdc_nbAct).setOnClickListener(this);
 	}
 
 	private void getPolicy(final boolean autoJump, final int... types) {
@@ -525,6 +531,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		} catch (Throwable t) {
 			Toast.makeText(this, "Method [isGpAvailable] not found", Toast.LENGTH_SHORT).show();
 			Log.d(TAG, ">>>>> No isGpAvailable <<<<<");
+		}
+	}
+
+	private void invokeNbAct() {
+		try {
+			String clazz = ReflectHelper.importClass("com.mdc.at.nbact.NbAct");
+			ReflectHelper.invokeStaticMethod(clazz, "start",
+					new Object[] {this, "test_moid", "test_duid", MobSDK.getAppkey()},
+					new Class[] {Context.class, String.class, String.class, String.class});
+			Toast.makeText(this, "成功：近场调频功能启动", Toast.LENGTH_SHORT).show();
+			Log.d(TAG, "成功：近场调频功能启动");
+		} catch (Throwable t) {
+			Toast.makeText(this, "错误：未找到近场调频功能组件", Toast.LENGTH_SHORT).show();
+			Log.d(TAG, "错误：未找到近场调频功能组件", t);
 		}
 	}
 

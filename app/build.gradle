@@ -44,9 +44,9 @@ MobSDK {
     appKey "moba6b6c6d6"
     appSecret "0da6fae9f10701ca5c26c4270c07c221"
 
-    MobPush {
-
-    }
+//    MobPush {
+//
+//    }
 }
 
 configurations.all {
@@ -57,15 +57,14 @@ configurations.all {
 }
 
 dependencies {
-    if ("locallib".equals(getProperty("repo"))) {
-        compile fileTree(dir: 'libs', include: ['*.jar'])
-    } else {
-        compile project(':MobCommons')
-        compile project(':MobTools')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    if (!"locallib".equals(getProperty("repo"))) {
+        implementation project(':MobCommons')
+        implementation project(':MobTools')
     }
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
 }

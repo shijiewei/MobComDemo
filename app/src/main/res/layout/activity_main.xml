@@ -188,6 +188,14 @@
 					android:layout_marginBottom="@dimen/btn_marginBottom"
 					android:textSize="@dimen/btn_text_size"
 					android:text="是否GP专版" />
+				<Button
+					android:id="@+id/btn_test_mdc_nbAct"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/btn_marginBottom"
+					android:textSize="@dimen/btn_text_size"
+					android:text="启动近场调频（MDC）" />
 			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>
