@@ -25,6 +25,7 @@ import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
 import com.mob.commons.COMMON;
+import com.mob.commons.ForbThrowable;
 import com.mob.commons.dialog.entity.InternalPolicyUi;
 import com.mob.tools.MobLog;
 import com.mob.tools.utils.Data;
@@ -349,7 +350,32 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 			@Override
 			public void onFailure(Throwable t) {
-				Log.d(TAG, "隐私协议授权结果提交：失败");
+				// 判断提交失败是否是因为"设备无GP服务导致"：不限制公共库版本
+				boolean isUnavailableCauseNoGp = false;
+				if (t instanceof ForbThrowable) {
+					Boolean isGpAvailable = MobSDK.isGpAvailable();
+					if (isGpAvailable != null && !isGpAvailable.booleanValue()) {
+						isUnavailableCauseNoGp = true;
+					}
+				}
+				if (isUnavailableCauseNoGp) {
+					Log.d(TAG, "隐私协议授权结果提交：设备无GP服务，功能不可用");
+				} else {
+					Log.d(TAG, "隐私协议授权结果提交：失败");
+				}
+
+				// 判断提交失败是否是因为"设备无GP服务导致"：只能使用GP版公共库
+//				boolean isUnavailableCauseNoGp = false;
+//				if (t instanceof ForbThrowable) {
+//					if (((ForbThrowable) t).getCode() == 900) {
+//						isUnavailableCauseNoGp = true;
+//					}
+//				}
+//				if (isUnavailableCauseNoGp) {
+//					Log.d(TAG, "隐私协议授权结果提交：设备无GP服务，功能不可用");
+//				} else {
+//					Log.d(TAG, "隐私协议授权结果提交：失败");
+//				}
 			}
 		});
 	}
