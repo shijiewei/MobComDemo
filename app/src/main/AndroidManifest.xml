@@ -43,23 +43,6 @@
 			android:theme="@style/MobShellTheme"
 			android:windowSoftInputMode="stateHidden|adjustResize" />
 		<activity android:name="com.example.jack.mobcomdemo.PolicyActivity"/>
-
-		<meta-data
-			android:name="Mob-AppKey"
-			android:value="moba6b6c6d6"/>
-		<meta-data
-			android:name="Mob-AppSecret"
-			android:value="0da6fae9f10701ca5c26c4270c07c221"/>
-		<!--<meta-data-->
-			<!--android:name="Domain"-->
-			<!--android:value="us"/>-->
-<!--		<meta-data-->
-<!--			android:name="Mob-V6"-->
-<!--			android:value="true"/>-->
-<!--		<meta-data-->
-<!--			android:name="Mob-PpNecessary"-->
-<!--			android:value="true"/>-->
-
 		<service
 			android:name="com.example.jack.mobcomdemo.MyService"
 			android:enabled="true"
@@ -77,6 +60,21 @@
 <!--			android:grantUriPermissions="true"-->
 <!--			android:exported="false">-->
 <!--		</provider>-->
+		<meta-data
+			android:name="Mob-AppKey"
+			android:value="moba6b6c6d6"/>
+		<meta-data
+			android:name="Mob-AppSecret"
+			android:value="0da6fae9f10701ca5c26c4270c07c221"/>
+<!--		<meta-data-->
+<!--			android:name="Domain"-->
+<!--			android:value="us"/>-->
+<!--		<meta-data-->
+<!--			android:name="Mob-V6"-->
+<!--			android:value="true"/>-->
+<!--		<meta-data-->
+<!--			android:name="Mob-PpNecessary"-->
+<!--			android:value="true"/>-->
 		<!-- DeviceHelper.getAdvertisingIDByGms()依赖此配置 -->
 		<meta-data
 			android:name="com.google.android.gms.ads.APPLICATION_ID"

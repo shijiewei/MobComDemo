@@ -1,17 +1,22 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.mob.sdk'
+plugins {
+    id 'com.android.application'
+    id 'com.mob.sdk'
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
     defaultConfig {
         applicationId "com.example.jack.mobcomdemo"
-        minSdkVersion 17
-        targetSdkVersion 29
+        minSdkVersion 16
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     signingConfigs{
         release {
             storeFile file("demokey.keystore")
@@ -24,15 +29,18 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-
         debug {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     lintOptions {
         abortOnError false
@@ -43,10 +51,6 @@ MobSDK {
 //    公共库测试appkey，带有默认开启的唤星
     appKey "moba6b6c6d6"
     appSecret "0da6fae9f10701ca5c26c4270c07c221"
-
-//    MobPush {
-//
-//    }
 }
 
 configurations.all {
@@ -58,13 +62,14 @@ configurations.all {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    if (!"locallib".equals(getProperty("repo"))) {
+    if ("local" == getProperty("dependency")) {
+        println '=====> dependency: local'
         implementation project(':MobCommons')
         implementation project(':MobTools')
+    } else {
+        println '=====> dependency: jar'
     }
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
+
+    testImplementation 'junit:junit:4.+'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 }

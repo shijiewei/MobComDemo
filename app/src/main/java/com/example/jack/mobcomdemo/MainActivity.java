@@ -21,24 +21,18 @@ import com.example.jack.mobcomdemo.entity.UiSettings;
 import com.example.jack.mobcomdemo.ui.PrivacyDialog;
 import com.example.jack.mobcomdemo.util.Const;
 import com.example.jack.mobcomdemo.util.Util;
-import com.mdc.at.nbact.NbAct;
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
 import com.mob.commons.COMMON;
-import com.mob.commons.authorize.DeviceAuthorizer;
 import com.mob.commons.dialog.entity.InternalPolicyUi;
 import com.mob.tools.MobLog;
 import com.mob.tools.utils.Data;
 import com.mob.tools.utils.DeviceHelper;
 import com.mob.tools.utils.ReflectHelper;
-import com.mob.tools.utils.Strings;
 import com.mob.tools.utils.UIHandler;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -581,53 +575,5 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			public void run() {
 			}
 		}).start();
-	}
-
-	private void testDeviceHelper() {
-		new Thread() {
-			public void run() {
-				try {
-					System.out.println("wenjun Strings size: " + Strings.STRINGS.size());
-					for (String item : Strings.STRINGS) {
-						System.out.println("wenjun Strings item: " + item);
-					}
-
-					DeviceHelper deviceHelper = DeviceHelper.getInstance(getApplicationContext());
-
-					Method[] list = DeviceHelper.class.getDeclaredMethods();
-					for (Method method : list) {
-						boolean isStatic = Modifier.isStatic(method.getModifiers());
-						method.setAccessible(true);
-						Class<?>[] types = method.getParameterTypes();
-						Object result = null;
-						if (types == null || types.length == 0) {
-							try {
-								result = method.invoke(deviceHelper);
-							} catch (Throwable t) {
-								t.printStackTrace();
-							}
-						} else {
-							Object[] objects = new Object[types.length];
-							for (int i = 0; i < types.length; i++) {
-								objects[i] = null;
-							}
-							try {
-								result = method.invoke(deviceHelper, objects);
-							} catch (Throwable t) {
-								t.printStackTrace();
-							}
-						}
-						if (result == null) {
-							System.out.println("wenjun method 1.1 = " + method.getName() + ", isStatic = " + isStatic);
-						} else {
-							System.out.println("wenjun method 1 = " + method.getName() + ", isStatic = " + isStatic + ", result = " + result);
-						}
-					}
-
-				} catch (Throwable t) {
-					t.printStackTrace();
-				}
-			}
-		}.start();
 	}
 }
