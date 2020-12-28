@@ -71,5 +71,5 @@ dependencies {
     }
 
     testImplementation 'junit:junit:4.+'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 }
