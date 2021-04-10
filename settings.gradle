@@ -1,23 +1,12 @@
+include ':AarMaker'
 include ':app'
+rootProject.name = "MobComDemo"
 
-if ("svn".equals(getProperty("repo"))) {
-    if ("dev".equals(getProperty("env"))) {
-        include ':MobCommons'
-        project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/branches/dev')
-        include ':MobTools'
-        project(':MobTools').projectDir = new File('../../svn/ShareSDKTools/branches/dev')
-    } else {
-        include ':MobCommons'
-        project(':MobCommons').projectDir = new File('../../svn/MobLogCollector/trunk')
-        include ':MobTools'
-        project(':MobTools').projectDir = new File('../../svn/ShareSDKTools/trunk')
-    }
-} else if ("git".equals(getProperty("repo"))) {
+if ("local".equals(getProperty("dependency"))) {
     include ':MobCommons'
-    project(':MobCommons').projectDir = new File('../../GitLab/MobLogCollector')
+    project(':MobCommons').projectDir = new File('../../gitLab/MobLogCollector')
     include ':MobTools'
-    project(':MobTools').projectDir = new File('../../GitLab/ShareSDKTools')
-} else if ("locallib".equals(getProperty("repo"))) {
-    // 不依赖源码，直接使用lib下的jar包
+    project(':MobTools').projectDir = new File('../../gitLab/ShareSDKTools')
+} else if ("jar".equals(getProperty("dependency"))) {
+    // 通过jar包依赖
 }
-
