@@ -55,6 +55,8 @@ MobSDK {
 
 configurations.all {
 //    exclude group: 'com.mob', module: 'MobApm'
+    exclude group: 'com.mob', module: 'MobCommonsTA'
+    exclude group: 'com.mob', module: 'MobToolsTA'
     exclude group: 'com.mob', module: 'MobCommons'
     exclude group: 'com.mob', module: 'MobTools'
     exclude group: 'com.mob', module: 'MobGUI'
