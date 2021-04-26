@@ -51,6 +51,7 @@ MobSDK {
     // 不带mdc：moba6b6c6d6，带有mdc：fe0614078730
     appKey "fe0614078730"
     appSecret "0da6fae9f10701ca5c26c4270c07c221"
+    SMSSDK {}
 }
 
 configurations.all {
