@@ -1,13 +1,22 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext {
+        // maven环境（正式/开发）
+        releaseEnv = false
+    }
     repositories {
         jcenter()
         google()
-        maven {
-//            url = 'https://mvn.mob.com/android'
-            url 'http://10.18.97.56:8080/job/iMaven/ws/android/'
-            allowInsecureProtocol true
+        if (releaseEnv) {
+            maven {
+                url "https://mvn.mob.com/android"
+            }
+        } else {
+            maven {
+                url 'http://10.18.97.56:8080/job/iMaven/ws/android/'
+                allowInsecureProtocol true
+            }
         }
     }
     dependencies {
@@ -23,10 +32,15 @@ allprojects {
     repositories {
         jcenter()
         google()
-        maven {
-//            url = 'https://mvn.mob.com/android'
-            url 'http://10.18.97.56:8080/job/iMaven/ws/android/'
-            allowInsecureProtocol true
+        if (releaseEnv) {
+            maven {
+                url "https://mvn.mob.com/android"
+            }
+        } else {
+            maven {
+                url 'http://10.18.97.56:8080/job/iMaven/ws/android/'
+                allowInsecureProtocol true
+            }
         }
     }
 }
