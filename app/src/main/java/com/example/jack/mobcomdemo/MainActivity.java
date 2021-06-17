@@ -66,7 +66,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		checkPermissions();
 		initView();
-		startService(new Intent(this, MyService.class));
+		// MyService被设置为子进程启动，开启后有可能会对数据采集的测试造成影响，比如同一个数据会一次采集两条
+//		startService(new Intent(this, MyService.class));
 		testMobCommon();
 		tempTestHere();
 	}
