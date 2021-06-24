@@ -25,6 +25,7 @@ import com.mob.MobSDK;
 import com.mob.OperationCallback;
 import com.mob.PrivacyPolicy;
 import com.mob.commons.COMMON;
+import com.mob.commons.ECManager;
 import com.mob.commons.ForbThrowable;
 import com.mob.commons.dialog.entity.InternalPolicyUi;
 import com.mob.tools.MobLog;
@@ -600,6 +601,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				for (int i = 0; i < 100; i++) {
+					ECManager.getInstance().isClear();
+//					try {
+//						Thread.sleep(1000);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+				}
 			}
 		}).start();
 	}
